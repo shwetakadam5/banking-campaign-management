@@ -1,8 +1,12 @@
 const typeDefs = `
 type AppUser {
     _id: ID
-    name: String   
+    appUserName: String   
   }
+
+type Query {
+appUsers :[AppUser]!
+}
 `;
 
 module.exports = typeDefs;
