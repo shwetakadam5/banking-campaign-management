@@ -5,7 +5,11 @@
   "main": "bcm-server/server.js",
   "scripts": {
     "start": "node bcm-server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install": "cd bcm-server && npm i && cd ../bcm-client && npm i",
+    "build": "cd bcm-client && npm run build",
+    "postinstall": "npm run build",
+    "develop": "concurrently \"cd bcm-server && npm run watch\" \"cd bcm-client && npm run dev\"",
+    "seed": "cd bcm-server && npm run seed"
   },
   "author": "",
   "license": "ISC"
