@@ -1,0 +1,12 @@
+{
+  "name": "banking-campaign-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bcm-server/server.js",
+  "scripts": {
+    "start": "node bcm-server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
