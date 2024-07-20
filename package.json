@@ -12,5 +12,8 @@
     "seed": "cd bcm-server && npm run seed"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
