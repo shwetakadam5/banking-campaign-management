@@ -5,7 +5,9 @@ import {
   ApolloProvider,
   createHttpLink,
 } from "@apollo/client";
+
 import { setContext } from "@apollo/client/link/context";
+import { GlobalAppProvider } from "./utils/GlobalAppContext";
 
 // Construct the main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -34,10 +36,12 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <>
-        {/* The Outlet component will conditionally swap between the different pages according to the URL */}
-        <Outlet />
-      </>
+      <GlobalAppProvider>
+        <>
+          {/* The Outlet component will conditionally swap between the different pages according to the URL */}
+          <Outlet />
+        </>
+      </GlobalAppProvider>
     </ApolloProvider>
   );
 }
