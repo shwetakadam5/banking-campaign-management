@@ -1,5 +1,5 @@
 const db = require("../config/connection");
-const { AppUser } = require("../models");
+const { AppUser, Customer } = require("../models");
 const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
@@ -31,6 +31,21 @@ db.once("open", async () => {
     });
 
     console.log("AppUsers seeded");
+
+    await cleanDB("Customer", "customers");
+
+    await Customer.create({
+      customerFirstName: "CustomerFN",
+      customerLastName: "CustomerLN",
+      customerEmail: "abcd@abc.com",
+      customerGender: "male",
+      customerOccuptation: "Occuptaion",
+      customerSalary: 100,
+      customerResidentStatus: "PR",
+      customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+    });
+
+    console.log("Customers seeded");
 
     console.log("all done!");
 

@@ -10,7 +10,24 @@ export const QUERY_APPUSERS = gql`
       appUserEmail
       appUserRole
       appUserFullName
-     
+    }
+  }
+`;
+
+export const QUERY_CUSTOMERS = gql`
+  query getCustomers {
+    customers {
+      _id
+      customerFirstName
+      customerLastName
+      customerEmail
+      customerGender
+      customerOccuptation
+      customerSalary
+      customerResidentStatus
+      customerDateOfBirth
+      isCustomerEligible
+      customerAge
     }
   }
 `;
