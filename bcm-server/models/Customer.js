@@ -84,7 +84,7 @@ const customerSchema = new Schema(
   { toJSON: { getters: true, virtuals: true }, id: false }
 );
 
-// Created a virtual property `friendCount` that retrieves the length of the user's `friends` array field on query
+// Created a virtual property `customerAge` that retrieves age of the customer based on the date of birth
 customerSchema.virtual("customerAge").get(function () {
   let birthDate = new Date(this.customerDateOfBirth);
   let todayDate = new Date();
