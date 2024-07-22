@@ -29,10 +29,10 @@ const startApolloServer = async () => {
   // In development, we run two servers concurrently that work together
   // In production, our Node server runs and delivers our client-side bundle from the dist/ folder
   if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
+    app.use(express.static(path.join(__dirname, "../bcm-client/dist")));
 
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+      res.sendFile(path.join(__dirname, "../bcm-client/dist/index.html"));
     });
   }
 
