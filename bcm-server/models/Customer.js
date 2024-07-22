@@ -74,7 +74,11 @@ const customerSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    // products: [Product],
+    products: [
+      {
+        type: { type: Schema.Types.ObjectId, ref: "product" },
+      },
+    ],
   },
   { toJSON: { getters: true, virtuals: true }, id: false }
 );

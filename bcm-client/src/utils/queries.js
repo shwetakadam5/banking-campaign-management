@@ -31,3 +31,27 @@ export const QUERY_CUSTOMERS = gql`
     }
   }
 `;
+
+export const QUERY_PRODUCTS = gql`
+  query getProducts {
+    products {
+      _id
+      productName
+      productType
+      productDescription
+      isCustomerInterested
+      rules
+    }
+  }
+`;
+
+export const QUERY_RULES = gql`
+  query getRules {
+    rules {
+      _id
+      ruleOperandField
+      ruleOperator
+      ruleValue
+    }
+  }
+`;

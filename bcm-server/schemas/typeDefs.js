@@ -6,8 +6,7 @@ type AppUser {
     appUserEmail: String
     appUserRole: String
     appUserFullName: String
-   
-  }
+    }
 
 type Customer {
     _id: ID
@@ -21,11 +20,30 @@ type Customer {
     customerDateOfBirth : String
     isCustomerEligible : Boolean
     customerAge : Int
+    products : [Product]
+  }
+
+type Product {
+    _id: ID
+    productName: String
+    productType: String
+    productDescription: String
+    isCustomerInterested: Boolean
+    rules: [Rule]
+  }
+    
+type Rule {
+    _id: ID
+    ruleOperandField : String
+    ruleOperator : String
+    ruleValue : String   
   }
 
 type Query {
 appUsers :[AppUser]!
 customers :[Customer]!
+products : [Product]!
+rules : [Rule]!
 }
 `;
 

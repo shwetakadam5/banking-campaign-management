@@ -1,5 +1,5 @@
 const db = require("../config/connection");
-const { AppUser, Customer } = require("../models");
+const { AppUser, Customer, Product, Rule } = require("../models");
 const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
@@ -32,6 +32,56 @@ db.once("open", async () => {
 
     console.log("AppUsers seeded");
 
+    const rules = await Rule.insertMany([
+      {
+        ruleName: "ageRule1",
+        ruleOperandField: "customerAge",
+        ruleOperator: "greater",
+        ruleValue: "18",
+      },
+      {
+        ruleName: "ageRule2",
+        ruleOperandField: "customerAge",
+        ruleOperator: "greater",
+        ruleValue: "30",
+      },
+      {
+        ruleName: "salaryRule3",
+        ruleOperandField: "customerSalary",
+        ruleOperator: "greater",
+        ruleValue: "100",
+      },
+      {
+        ruleName: "residentStatusRule4",
+        ruleOperandField: "customerResidentStatus",
+        ruleOperator: "equals",
+        ruleValue: "CITIZEN",
+      },
+      {
+        ruleName: "forWomenRule4",
+        ruleOperandField: "customerGender",
+        ruleOperator: "equals",
+        ruleValue: "female",
+      },
+    ]);
+
+    console.log("Rules seeded");
+
+    const product = await Product.create({
+      productName: "Product1",
+      productType: "productType",
+      productDescription: "DummyProduct",
+      rules: [
+        rules[0]._id,
+        rules[1]._id,
+        rules[2]._id,
+        rules[3]._id,
+        // rules[4]._id,
+      ],
+    });
+
+    console.log("Products seeded");
+
     await cleanDB("Customer", "customers");
 
     await Customer.create({
@@ -43,6 +93,7 @@ db.once("open", async () => {
       customerSalary: 100,
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      products: [product._id],
     });
 
     console.log("Customers seeded");

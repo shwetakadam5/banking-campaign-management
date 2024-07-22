@@ -1,4 +1,4 @@
-const { AppUser, Customer } = require("../models");
+const { AppUser, Customer, Product, Rule } = require("../models");
 
 const resolvers = {
   Query: {
@@ -7,6 +7,12 @@ const resolvers = {
     },
     customers: async () => {
       return Customer.find();
+    },
+    products: async () => {
+      return Product.find();
+    },
+    rules: async () => {
+      return Rule.find();
     },
   },
 };
