@@ -5,7 +5,12 @@ export const QUERY_APPUSERS = gql`
   query allAppUsers {
     appUsers {
       _id
-      appUserName
+      appUserFirstName
+      appUserLastName
+      appUserEmail
+      appUserRole
+      appUserFullName
+     
     }
   }
 `;

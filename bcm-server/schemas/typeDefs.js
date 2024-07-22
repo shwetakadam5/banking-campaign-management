@@ -1,7 +1,12 @@
 const typeDefs = `
 type AppUser {
     _id: ID
-    appUserName: String   
+    appUserFirstName: String
+    appUserLastName: String
+    appUserEmail: String
+    appUserRole: String
+    appUserFullName: String
+   
   }
 
 type Query {

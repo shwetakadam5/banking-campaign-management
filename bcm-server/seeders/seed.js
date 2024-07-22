@@ -7,11 +7,27 @@ db.once("open", async () => {
     await cleanDB("AppUser", "appusers");
 
     await AppUser.create({
-      appUserName: "Shiv",
+      appUserFirstName: "Shiv",
+      appUserLastName: "Zutshi",
+      appUserEmail: "shivzutshi@password.com",
+      appUserRole: "admin",
+      appUserPassword: "password123",
     });
 
     await AppUser.create({
-      appUserName: "Shweta",
+      appUserFirstName: "Shweta",
+      appUserLastName: "Kadam",
+      appUserEmail: "shwetakadam@password.com",
+      appUserRole: "agent",
+      appUserPassword: "password123",
+    });
+
+    await AppUser.create({
+      appUserFirstName: "Shulin",
+      appUserLastName: "Z",
+      appUserEmail: "shulin@password.com",
+      appUserRole: "customer",
+      appUserPassword: "password123",
     });
 
     console.log("AppUsers seeded");
