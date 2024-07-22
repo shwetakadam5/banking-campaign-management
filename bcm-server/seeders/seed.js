@@ -5,6 +5,9 @@ const cleanDB = require("./cleanDB");
 db.once("open", async () => {
   try {
     await cleanDB("AppUser", "appusers");
+    await cleanDB("Rule", "rules");
+    await cleanDB("Product", "products");
+    await cleanDB("Customer", "customers");
 
     await AppUser.create({
       appUserFirstName: "Shiv",
@@ -71,18 +74,10 @@ db.once("open", async () => {
       productName: "Product1",
       productType: "productType",
       productDescription: "DummyProduct",
-      rules: [
-        rules[0]._id,
-        rules[1]._id,
-        rules[2]._id,
-        rules[3]._id,
-        // rules[4]._id,
-      ],
+      rules: [rules[0]._id, rules[1]._id, rules[2]._id, rules[3]._id],
     });
 
     console.log("Products seeded");
-
-    await cleanDB("Customer", "customers");
 
     await Customer.create({
       customerFirstName: "CustomerFN",

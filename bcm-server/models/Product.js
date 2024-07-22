@@ -20,7 +20,8 @@ const productSchema = new Schema(
     },
     rules: [
       {
-        type: { type: Schema.Types.ObjectId, ref: "rule" },
+        type: Schema.Types.ObjectId,
+        ref: "Rule",
         // validate: [rulesLimit, "{PATH} exceeds the limit of 4"],
       },
     ],
@@ -33,10 +34,6 @@ const productSchema = new Schema(
     id: false,
   }
 );
-
-function rulesLimit(val) {
-  return val.length <= 4;
-}
 
 // Validations for assignedTo employees' size
 productSchema.path("rules").validate(function (value) {

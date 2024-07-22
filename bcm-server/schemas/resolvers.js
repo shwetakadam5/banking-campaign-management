@@ -6,13 +6,15 @@ const resolvers = {
       return AppUser.find();
     },
     customers: async () => {
-      return Customer.find();
+      const customers = await Customer.find({}).populate("products");
+      console.log(customers);
+      return customers;
     },
     products: async () => {
-      return Product.find();
+      return Product.find({}).populate("rules");
     },
     rules: async () => {
-      return Rule.find();
+      return Rule.find({});
     },
   },
 };

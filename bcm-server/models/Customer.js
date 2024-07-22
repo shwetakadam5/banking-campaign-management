@@ -76,7 +76,8 @@ const customerSchema = new Schema(
     },
     products: [
       {
-        type: { type: Schema.Types.ObjectId, ref: "product" },
+        type: Schema.Types.ObjectId,
+        ref: "Product",
       },
     ],
   },
