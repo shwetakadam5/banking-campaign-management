@@ -6,7 +6,10 @@ const resolvers = {
       return AppUser.find();
     },
     customers: async () => {
-      const customers = await Customer.find({}).populate("products");
+      const customers = await Customer.find({}).populate("products").populate({
+        path: "products",
+        populate: "rules",
+      });
       console.log(customers);
       return customers;
     },

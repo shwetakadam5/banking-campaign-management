@@ -22,7 +22,6 @@ const productSchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Rule",
-        // validate: [rulesLimit, "{PATH} exceeds the limit of 4"],
       },
     ],
   },
@@ -35,9 +34,8 @@ const productSchema = new Schema(
   }
 );
 
-// Validations for assignedTo employees' size
+// Validations on the number of rules that are applicable per product.
 productSchema.path("rules").validate(function (value) {
-  console.log(value.length);
   if (value.length > 4) {
     throw new Error("Assigned rules can't be greater than 4!");
   }
