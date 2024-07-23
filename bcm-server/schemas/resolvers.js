@@ -27,7 +27,7 @@ const resolvers = {
       const appUserDetails = await AppUser.findOne({ appUserEmail });
 
       if (!appUserDetails) {
-        throw new GraphQLError("Could not authenticate user.", {
+        throw new GraphQLError("Could not authenticate user.Invalid Username", {
           extensions: {
             code: "UNAUTHENTICATED",
           },
@@ -39,11 +39,14 @@ const resolvers = {
       );
 
       if (!validPassword) {
-        throw new GraphQLError("Could not authenticate user.", {
-          extensions: {
-            code: "UNAUTHENTICATED",
-          },
-        });
+        throw new GraphQLError(
+          "Could not authenticate user. Invalid Password",
+          {
+            extensions: {
+              code: "UNAUTHENTICATED",
+            },
+          }
+        );
       }
 
       const token = signToken(appUserDetails);
