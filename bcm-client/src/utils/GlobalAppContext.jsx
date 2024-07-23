@@ -11,9 +11,17 @@ export const useGlobalAppContext = () => useContext(GlobalAppContext);
 //GlobalAppProvider is a function that will return a provider component that makes global state available.
 export const GlobalAppProvider = (props) => {
   const darkTheme = true;
+  const authAppUserDetail = {
+    appUserEmail: "",
+    appUserRole: "",
+    appUserFullName: "",
+  };
 
   // Set up our useReducer hook. Accepts two arguments - the reducer and an initial state
-  const [state, dispatch] = useReducer(reducer, { darkTheme });
+  const [state, dispatch] = useReducer(reducer, {
+    authAppUserDetail: authAppUserDetail,
+    darkTheme: darkTheme,
+  });
 
   return <GlobalAppContext.Provider value={[state, dispatch]} {...props} />;
 };

@@ -6,9 +6,15 @@ const secret = process.env.JWT_SECRET;
 const expiration = process.env.JWT_EXPIRATION;
 
 module.exports = {
-  // Function to generate a token combining the encoded header and payload and signing it with a secret ket.
-  signToken: function ({ _id }) {
-    const payload = { _id };
+  // Function to generate a token combining the encoded header and payload and signing it with a secret key.
+
+  signToken: function ({ _id, appUserEmail, appUserRole, appUserFullName }) {
+    const payload = {
+      _id,
+      appUserEmail,
+      appUserRole,
+      appUserFullName,
+    };
     return jwt.sign({ authenticatedUser: payload }, secret, {
       expiresIn: expiration,
     });

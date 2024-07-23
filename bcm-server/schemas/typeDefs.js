@@ -39,12 +39,22 @@ type Rule {
     ruleValue : String   
   }
 
+type AuthorizedUser {
+    token: ID
+    appUserDetails : AppUser
+  }
+
 type Query {
 appUsers :[AppUser]!
 customers :[Customer]!
 products : [Product]!
 rules : [Rule]!
 }
+
+type Mutation {
+     login(appUserEmail: String!, appUserPassword: String!): AuthorizedUser
+   
+  }
 `;
 
 module.exports = typeDefs;

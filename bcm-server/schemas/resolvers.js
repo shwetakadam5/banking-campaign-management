@@ -1,4 +1,6 @@
 const { AppUser, Customer, Product, Rule } = require("../models");
+const { signToken } = require("../utils/jwtAuth");
+const { GraphQLError } = require("graphql");
 
 const resolvers = {
   Query: {
@@ -18,6 +20,35 @@ const resolvers = {
     },
     rules: async () => {
       return await Rule.find({});
+    },
+  },
+  Mutation: {
+    login: async (parent, { appUserEmail, appUserPassword }) => {
+      const appUserDetails = await AppUser.findOne({ appUserEmail });
+
+      if (!appUserDetails) {
+        throw new GraphQLError("Could not authenticate user.", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
+      const validPassword = await appUserDetails.isCorrectPassword(
+        appUserPassword
+      );
+
+      if (!validPassword) {
+        throw new GraphQLError("Could not authenticate user.", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+          },
+        });
+      }
+
+      const token = signToken(appUserDetails);
+
+      return { token, appUserDetails };
     },
   },
 };
