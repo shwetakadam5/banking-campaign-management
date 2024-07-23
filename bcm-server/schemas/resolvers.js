@@ -3,7 +3,7 @@ const { AppUser, Customer, Product, Rule } = require("../models");
 const resolvers = {
   Query: {
     appUsers: async () => {
-      return AppUser.find();
+      return await AppUser.find();
     },
     customers: async () => {
       const customers = await Customer.find({}).populate("products").populate({
@@ -14,10 +14,10 @@ const resolvers = {
       return customers;
     },
     products: async () => {
-      return Product.find({}).populate("rules");
+      return await Product.find({}).populate("rules");
     },
     rules: async () => {
-      return Rule.find({});
+      return await Rule.find({});
     },
   },
 };
