@@ -53,6 +53,41 @@ const resolvers = {
 
       return { token, appUserDetails };
     },
+    addRule: async (parent, args) => {
+      const rule = await Rule.create(args);
+      return rule;
+    },
+    deleteRule: async (parent, { ruleId }) => {
+      return Rule.findOneAndDelete({ _id: ruleId });
+    },
+    addProduct: async (parent, args) => {
+      if (Array.isArray(args.rules) && args.rules.length === 0) {
+        throw new GraphQLError("Cannot add a product without any rule", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+      for (let index = 0; index < args.rules.length; index++) {
+        const element = args.rules[index];
+        const rule = await Rule.findById({
+          _id: element,
+        });
+        if (rule == null) {
+          throw new GraphQLError(
+            "Rule does not exist.Cannot add a product with invalid rule",
+            {
+              extensions: {
+                code: "BAD_USER_INPUT",
+              },
+            }
+          );
+        }
+      }
+
+      const product = await Product.create(args);
+      return product;
+    },
   },
 };
 

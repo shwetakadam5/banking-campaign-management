@@ -13,6 +13,7 @@ const productSchema = new Schema(
     productDescription: {
       type: String,
       required: [true, "Product description is required."],
+      trim: true,
     },
     isCustomerInterested: {
       type: Boolean,

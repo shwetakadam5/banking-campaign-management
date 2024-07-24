@@ -34,6 +34,7 @@ type Product {
     
 type Rule {
     _id: ID
+    ruleName: String
     ruleOperandField : String
     ruleOperator : String
     ruleValue : String   
@@ -53,6 +54,9 @@ rules : [Rule]!
 
 type Mutation {
      login(appUserEmail: String!, appUserPassword: String!): AuthorizedUser
+     addRule(ruleName : String!, ruleOperandField : String!, ruleOperator: String!, ruleValue : String!) : Rule
+     deleteRule(ruleId: ID!): Rule
+     addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
    
   }
 `;

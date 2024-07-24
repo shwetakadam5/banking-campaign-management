@@ -41,7 +41,7 @@ const customerSchema = new Schema(
       enum: validGenders,
     },
 
-    customerOccuptation: {
+    customerOccupation: {
       type: String,
       trim: true,
     },
