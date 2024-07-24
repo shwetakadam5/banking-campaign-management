@@ -58,7 +58,15 @@ const resolvers = {
       return rule;
     },
     deleteRule: async (parent, { ruleId }) => {
-      return Rule.findOneAndDelete({ _id: ruleId });
+      const rule = await Rule.findOneAndDelete({ _id: ruleId });
+      if (!rule) {
+        throw new GraphQLError("No rule with that id", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+      return rule;
     },
     addProduct: async (parent, args) => {
       if (Array.isArray(args.rules) && args.rules.length === 0) {

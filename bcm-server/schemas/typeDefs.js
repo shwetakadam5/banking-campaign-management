@@ -57,6 +57,7 @@ type Mutation {
      addRule(ruleName : String!, ruleOperandField : String!, ruleOperator: String!, ruleValue : String!) : Rule
      deleteRule(ruleId: ID!): Rule
      addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
+     deleteProduct(productId: ID!): Product
    
   }
 `;
