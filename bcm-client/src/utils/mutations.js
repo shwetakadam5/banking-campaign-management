@@ -75,3 +75,22 @@ export const ADD_PRODUCT = gql`
     }
   }
 `;
+
+export const DELETE_PRODUCT = gql`
+  mutation deleteProduct($productId: ID!) {
+    deleteProduct(productId: $productId) {
+      numOfCustomersUpdated
+      product {
+        _id
+        productName
+        productType
+        productDescription
+        isCustomerInterested
+        rules {
+          _id
+          ruleName
+        }
+      }
+    }
+  }
+`;

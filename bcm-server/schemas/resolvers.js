@@ -12,7 +12,7 @@ const resolvers = {
         path: "products",
         populate: "rules",
       });
-      console.log(customers);
+
       return customers;
     },
     products: async () => {
@@ -58,6 +58,21 @@ const resolvers = {
       return rule;
     },
     deleteRule: async (parent, { ruleId }) => {
+      const countOfProductsLinkedToRule = await Product.countDocuments({
+        rules: ruleId,
+      });
+
+      if (countOfProductsLinkedToRule !== 0) {
+        throw new GraphQLError(
+          `Rule cannot be deleted as ${countOfProductsLinkedToRule} products are linked `,
+          {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          }
+        );
+      }
+
       const rule = await Rule.findOneAndDelete({ _id: ruleId });
       if (!rule) {
         throw new GraphQLError("No rule with that id", {
@@ -66,6 +81,7 @@ const resolvers = {
           },
         });
       }
+
       return rule;
     },
     addProduct: async (parent, args) => {
@@ -95,6 +111,25 @@ const resolvers = {
 
       const product = await Product.create(args);
       return product;
+    },
+    deleteProduct: async (parent, { productId }) => {
+      const product = await Product.findOneAndDelete({ _id: productId });
+      if (!product) {
+        throw new GraphQLError("No Product with that id", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
+
+      // Remove the products from all customers lists
+      const customersUpdated = await Customer.updateMany(
+        { products: productId }, // Update documents where the customer has a product
+        { $pull: { products: productId } } // Remove the product from the customers array
+      );
+
+      const numOfCustomersUpdated = customersUpdated.modifiedCount;
+      return { product, numOfCustomersUpdated };
     },
   },
 };

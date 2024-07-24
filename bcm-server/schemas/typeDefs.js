@@ -45,20 +45,24 @@ type AuthorizedUser {
     appUserDetails : AppUser
   }
 
+type DeletedProduct {
+    product: Product
+    numOfCustomersUpdated : Int
+  }
+
 type Query {
-appUsers :[AppUser]!
-customers :[Customer]!
-products : [Product]!
-rules : [Rule]!
-}
+    appUsers :[AppUser]!
+    customers :[Customer]!
+    products : [Product]!
+    rules : [Rule]!
+  }
 
 type Mutation {
      login(appUserEmail: String!, appUserPassword: String!): AuthorizedUser
      addRule(ruleName : String!, ruleOperandField : String!, ruleOperator: String!, ruleValue : String!) : Rule
      deleteRule(ruleId: ID!): Rule
      addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
-     deleteProduct(productId: ID!): Product
-   
+     deleteProduct(productId: ID!): DeletedProduct   
   }
 `;
 

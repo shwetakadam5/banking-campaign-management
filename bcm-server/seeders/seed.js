@@ -70,11 +70,25 @@ db.once("open", async () => {
 
     console.log("Rules seeded");
 
-    const product = await Product.create({
+    const product1 = await Product.create({
       productName: "Product1",
       productType: "productType",
       productDescription: "DummyProduct",
       rules: [rules[0]._id, rules[1]._id, rules[2]._id, rules[3]._id],
+    });
+
+    const product2 = await Product.create({
+      productName: "Product2",
+      productType: "productType",
+      productDescription: "DummyProduct",
+      rules: [rules[2]._id, rules[3]._id],
+    });
+
+    const product3 = await Product.create({
+      productName: "Product3",
+      productType: "productType",
+      productDescription: "DummyProduct",
+      rules: [rules[0]._id],
     });
 
     console.log("Products seeded");
@@ -88,7 +102,31 @@ db.once("open", async () => {
       customerSalary: 100,
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
-      products: [product._id],
+      products: [product1._id],
+    });
+
+    await Customer.create({
+      customerFirstName: "Customer2FN",
+      customerLastName: "Customer2LN",
+      customerEmail: "abcd2@abc.com",
+      customerGender: "female",
+      customerOccuptation: "Occuptaion",
+      customerSalary: 1000,
+      customerResidentStatus: "PR",
+      customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      products: [product2._id],
+    });
+
+    await Customer.create({
+      customerFirstName: "Customer3FN",
+      customerLastName: "Customer3LN",
+      customerEmail: "abcd3@abc.com",
+      customerGender: "female",
+      customerOccuptation: "Occuptaion",
+      customerSalary: 1000,
+      customerResidentStatus: "PR",
+      customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      products: [product1._id, product2._id, product3._id],
     });
 
     console.log("Customers seeded");

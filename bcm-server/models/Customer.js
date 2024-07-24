@@ -81,7 +81,7 @@ const customerSchema = new Schema(
       },
     ],
   },
-  { toJSON: { getters: true, virtuals: true }, id: false }
+  { toJSON: { getters: true, virtuals: true }, id: false, timestamps: true }
 );
 
 // Created a virtual property `customerAge` that retrieves age of the customer based on the date of birth
