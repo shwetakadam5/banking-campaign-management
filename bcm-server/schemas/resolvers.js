@@ -112,8 +112,41 @@ const resolvers = {
       const product = await Product.create(args);
       return product;
     },
-    deleteProduct: async (parent, { productId }) => {
-      const product = await Product.findOneAndDelete({ _id: productId });
+    updateProduct: async (
+      parent,
+      {
+        productId,
+        productName,
+        productType,
+        productDescription,
+        isCustomerInterested,
+        rules,
+      }
+    ) => {
+      if (Array.isArray(rules) && rules.length === 0) {
+        throw new GraphQLError(
+          "Cannot update a product without atleast 1 rule",
+          {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          }
+        );
+      }
+      const product = await Product.findOneAndUpdate(
+        { _id: productId },
+        {
+          $set: {
+            productName,
+            productType,
+            productDescription,
+            isCustomerInterested,
+            rules,
+          },
+        },
+        { runValidators: true, new: true }
+      );
+
       if (!product) {
         throw new GraphQLError("No Product with that id", {
           extensions: {
@@ -122,14 +155,7 @@ const resolvers = {
         });
       }
 
-      // Remove the products from all customers lists
-      const customersUpdated = await Customer.updateMany(
-        { products: productId }, // Update documents where the customer has a product
-        { $pull: { products: productId } } // Remove the product from the customers array
-      );
-
-      const numOfCustomersUpdated = customersUpdated.modifiedCount;
-      return { product, numOfCustomersUpdated };
+      return product;
     },
   },
 };

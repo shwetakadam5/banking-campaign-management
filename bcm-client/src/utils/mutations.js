@@ -76,20 +76,31 @@ export const ADD_PRODUCT = gql`
   }
 `;
 
-export const DELETE_PRODUCT = gql`
-  mutation deleteProduct($productId: ID!) {
-    deleteProduct(productId: $productId) {
-      numOfCustomersUpdated
-      product {
+export const UPDATE_PRODUCT = gql`
+  mutation updateProduct(
+    $productId: ID!
+    $productName: String
+    $productType: String
+    $productDescription: String
+    $isCustomerInterested: String
+    $rules: [ID!]
+  ) {
+    updateProduct(
+      productId: $productId
+      productName: $productName
+      productType: $productType
+      productDescription: $productDescription
+      isCustomerInterested: $isCustomerInterested
+      rules: $rules
+    ) {
+      _id
+      productName
+      productType
+      productDescription
+      isCustomerInterested
+      rules {
         _id
-        productName
-        productType
-        productDescription
-        isCustomerInterested
-        rules {
-          _id
-          ruleName
-        }
+        ruleName
       }
     }
   }

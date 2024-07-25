@@ -45,10 +45,6 @@ type AuthorizedUser {
     appUserDetails : AppUser
   }
 
-type DeletedProduct {
-    product: Product
-    numOfCustomersUpdated : Int
-  }
 
 type Query {
     appUsers :[AppUser]!
@@ -62,7 +58,7 @@ type Mutation {
      addRule(ruleName : String!, ruleOperandField : String!, ruleOperator: String!, ruleValue : String!) : Rule
      deleteRule(ruleId: ID!): Rule
      addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
-     deleteProduct(productId: ID!): DeletedProduct   
+     updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String,isCustomerInterested: String, rules : [ID!]): Product   
   }
 `;
 
