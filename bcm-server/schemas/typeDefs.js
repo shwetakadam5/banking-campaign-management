@@ -45,6 +45,9 @@ type AuthorizedUser {
     appUserDetails : AppUser
   }
 
+type EmailResponse {
+    responseMsg: String
+  }
 
 type Query {
     appUsers :[AppUser]!
@@ -58,7 +61,8 @@ type Mutation {
      addRule(ruleName : String!, ruleOperandField : String!, ruleOperator: String!, ruleValue : String!) : Rule
      deleteRule(ruleId: ID!): Rule
      addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
-     updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String,isCustomerInterested: String, rules : [ID!]): Product   
+     updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String,isCustomerInterested: String, rules : [ID!]): Product
+     sendEmail(email : String!) : EmailResponse
   }
 `;
 

@@ -20,7 +20,7 @@ db.once("open", async () => {
     await AppUser.create({
       appUserFirstName: "Shweta",
       appUserLastName: "Kadam",
-      appUserEmail: "shwetakadam@password.com",
+      appUserEmail: "shwetakadam5@gmail.com",
       appUserRole: "agent",
       appUserPassword: "password123",
     });

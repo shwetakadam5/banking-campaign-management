@@ -105,3 +105,11 @@ export const UPDATE_PRODUCT = gql`
     }
   }
 `;
+
+export const SEND_EMAIL = gql`
+  mutation sendEmail($email: String!) {
+    sendEmail(email: $email) {
+      responseMsg
+    }
+  }
+`;
