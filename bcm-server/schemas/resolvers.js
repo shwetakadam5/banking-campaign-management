@@ -2,7 +2,11 @@ const { AppUser, Customer, Product, Rule } = require("../models");
 const { signToken } = require("../utils/jwtAuth");
 const { GraphQLError } = require("graphql");
 const nodemailer = require("nodemailer");
-
+const {
+  calculateCustomerAge,
+  sendEmailMessage,
+  generatePassword,
+} = require("../utils/helper");
 const resolvers = {
   Query: {
     appUsers: async () => {
@@ -160,34 +164,14 @@ const resolvers = {
     },
     sendEmail: async (parent, { email }) => {
       console.log({ email });
-      let emailResponseMessage;
-      const transporter = nodemailer.createTransport({
-        // host: process.env.SMTP_HOST,
-        // port: process.env.SMTP_PORT,
-        // secure: false, // Use `true` for port 465, `false` for all other ports
-        service: process.env.SMTP_HOST,
-        auth: {
-          user: process.env.SMTP_MAIL,
-          pass: process.env.SMTP_PASSWORD,
-        },
-      });
+      const emailSubject = "Sending Email using Node.js";
+      const emailMessage = "My First Trial Email!";
 
-      let mailOptions = {
-        from: process.env.SMTP_MAIL,
-        to: email,
-        subject: "Sending Email using Node.js",
-        text: "My First Trial Email!",
-      };
-
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-          emailResponseMessage = "Error Sending Email";
-        } else {
-          console.log("Email sent: " + info.response);
-          emailResponseMessage = "Sent EMail";
-        }
-      });
+      const emailResponseMessage = sendEmailMessage(
+        email,
+        emailSubject,
+        emailMessage
+      );
 
       return emailResponseMessage;
     },
@@ -201,14 +185,168 @@ const resolvers = {
         customerSalary,
         customerResidentStatus,
         customerDateOfBirth,
-        products,
+        // products,
       } = args;
       let isCustomerEligible = "false";
-      if (products.length !== 0) {
-        isCustomerEligible = "true";
+      let products = [];
+
+      const customerAge = calculateCustomerAge(customerDateOfBirth);
+      const generatedPassword = generatePassword(
+        customerFirstName,
+        customerDateOfBirth
+      );
+
+      //fetch all the products
+
+      const productList = await Product.find({}).populate("rules");
+
+      let applicableProducts = [];
+
+      // loop through the products and the rules under each product and check against the customer values.
+      //if all rules match then the products are applicable.
+      for (let pindex = 0; pindex < productList.length; pindex++) {
+        const rules = productList[pindex].rules;
+        let rulesCounter = 0;
+        // console.log(rules.length);
+        // console.log(rulesCounter);
+        for (let index = 0; index < rules.length; index++) {
+          let eachRule = rules[index];
+          let fieldName = eachRule.ruleOperandField;
+          let fieldValue = eachRule.ruleValue;
+
+          if (eachRule.ruleOperator === "equals") {
+            if (fieldName === "customerFirstName") {
+              if (customerFirstName === fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerLastName") {
+              if (customerLastName === fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerEmail") {
+              //No Rule defined
+            } else if (fieldName === "customerGender") {
+              if (customerGender === fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerOccupation") {
+              if (customerOccupation === fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerSalary") {
+              if (customerSalary === fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerResidentStatus") {
+              if (customerResidentStatus === fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerAge") {
+              if (customerAge === fieldValue) {
+                rulesCounter++;
+              }
+            } else {
+              throw new GraphQLError("Incorrect rule field name", {
+                extensions: {
+                  code: "BAD_USER_INPUT",
+                },
+              });
+            }
+          } else if (eachRule.ruleOperator === "greater") {
+            //write logic for that check
+            if (fieldName === "customerFirstName") {
+              //logic
+            } else if (fieldName === "customerLastName") {
+              //logic
+            } else if (fieldName === "customerEmail") {
+              //logic
+            } else if (fieldName === "customerGender") {
+              //logic
+            } else if (fieldName === "customerOccupation") {
+              //logic
+            } else if (fieldName === "customerResidentStatus") {
+              //logic
+            } else if (fieldName === "customerSalary") {
+              if (customerSalary > fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerAge") {
+              if (customerAge > fieldValue) {
+                rulesCounter++;
+              }
+            } else {
+              throw new GraphQLError("Incorrect rule field name or operator", {
+                extensions: {
+                  code: "BAD_USER_INPUT",
+                },
+              });
+            }
+          } else if (eachRule.ruleOperator === "less") {
+            //write logic for that check
+            if (fieldName === "customerFirstName") {
+              // logic
+            } else if (fieldName === "customerLastName") {
+              //logic
+            } else if (fieldName === "customerEmail") {
+              //logic
+            } else if (fieldName === "customerGender") {
+              //logic
+            } else if (fieldName === "customerOccupation") {
+              //logic
+            } else if (fieldName === "customerResidentStatus") {
+              //logic
+            } else if (fieldName === "customerSalary") {
+              if (customerSalary < fieldValue) {
+                rulesCounter++;
+              }
+            } else if (fieldName === "customerAge") {
+              if (customerAge < fieldValue) {
+                rulesCounter++;
+              }
+            } else {
+              throw new GraphQLError("Incorrect rule field name or operator", {
+                extensions: {
+                  code: "BAD_USER_INPUT",
+                },
+              });
+            }
+          }
+
+          if (rulesCounter === rules.length) {
+            applicableProducts.push(productList[pindex]);
+          }
+        }
       }
 
-      const customer = await Customer.create({ ...args, isCustomerEligible });
+      console.log("Applicable Products Length : ", applicableProducts.length);
+
+      //based on the rules, products must be added and iscustomereligible
+
+      if (applicableProducts.length !== 0) {
+        isCustomerEligible = "true";
+        products = [...applicableProducts];
+      }
+
+      const customer = await Customer.create({
+        ...args,
+        isCustomerEligible,
+        products: [...products],
+      });
+
+      const newAppUser = await AppUser.create({
+        appUserFirstName: customer.customerFirstName,
+        appUserLastName: customer.customerLastName,
+        appUserEmail: customer.customerEmail,
+        appUserRole: "customer",
+        appUserPassword: generatedPassword,
+      });
+
+      const emailSubject = "Welcome to Our Banking System";
+      const emailMessage = `We have offered ${applicableProducts.length} products to you. To view the products offered, kindly login in to the website URL: http://localhost:3000.
+        Please use email id as your username and password in the following format (firstnameyearOfbirth)(Eg: john1983)`;
+
+      sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
+
       return customer;
     },
   },

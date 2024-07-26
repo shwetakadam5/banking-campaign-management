@@ -91,6 +91,13 @@ db.once("open", async () => {
       rules: [rules[0]._id],
     });
 
+    const product4 = await Product.create({
+      productName: "Product4",
+      productType: "productType",
+      productDescription: "DummyProduct",
+      rules: [rules[4]._id],
+    });
+
     console.log("Products seeded");
 
     await Customer.create({
