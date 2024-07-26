@@ -67,7 +67,6 @@ export const ADD_PRODUCT = gql`
       productName
       productType
       productDescription
-      isCustomerInterested
       rules {
         _id
         ruleName
@@ -82,7 +81,6 @@ export const UPDATE_PRODUCT = gql`
     $productName: String
     $productType: String
     $productDescription: String
-    $isCustomerInterested: String
     $rules: [ID!]
   ) {
     updateProduct(
@@ -90,14 +88,12 @@ export const UPDATE_PRODUCT = gql`
       productName: $productName
       productType: $productType
       productDescription: $productDescription
-      isCustomerInterested: $isCustomerInterested
       rules: $rules
     ) {
       _id
       productName
       productType
       productDescription
-      isCustomerInterested
       rules {
         _id
         ruleName
@@ -163,10 +159,7 @@ export const ADD_CUSTOMER = gql`
 
 export const ADD_INTEREST = gql`
   mutation addInterest($products: [ID]!, $isCustomerInterested: Boolean) {
-    addInterest(
-      products: $products
-      isCustomerInterested: $isCustomerInterested
-    ) {
+    addInterest(products: $products) {
       isCustomerInterested
       products {
         _id

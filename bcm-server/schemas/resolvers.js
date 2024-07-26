@@ -62,8 +62,9 @@ const resolvers = {
     },
     customersProducts: async (parent, args, context) => {
       if (context.user) {
+        // //for unittesting
+        // const customer = await Customer.findById("66a395230797e0aa3da88a7f")
         const customer = await Customer.findById(context.user._id)
-          //const customer = await Customer.findById("66a382f274feacbd2c5ccb5b") for unittesting
           .populate("products")
           .populate({
             path: "products",
@@ -177,14 +178,7 @@ const resolvers = {
     },
     updateProduct: async (
       parent,
-      {
-        productId,
-        productName,
-        productType,
-        productDescription,
-        isCustomerInterested,
-        rules,
-      }
+      { productId, productName, productType, productDescription, rules }
     ) => {
       if (Array.isArray(rules) && rules.length === 0) {
         throw new GraphQLError(
@@ -203,7 +197,6 @@ const resolvers = {
             productName,
             productType,
             productDescription,
-            isCustomerInterested,
             rules,
           },
         },
@@ -416,7 +409,7 @@ const resolvers = {
           .select("products");
 
         // const customerInterestedProducts = await Customer.findById(
-        //   "66a382f274feacbd2c5ccb5b"
+        //   "66a39c27d9e8edaed21653df"
         // )
         //   .select("interestedProducts")
         //   .select("products");
@@ -434,30 +427,50 @@ const resolvers = {
         }
         let interestedProducts;
         if (customerInterestedProducts.interestedProducts == null) {
-          interestedProducts = await CustomerInterest.create({
-            isCustomerInterested: args.isCustomerInterested,
-            products: [...args.products],
-          });
-        } else {
-          interestedProducts = await CustomerInterest.findOneAndUpdate(
-            { _id: customerInterestedProducts.interestedProducts },
-            {
-              $set: {
-                products: [...args.products],
+          if (args.products.length !== 0) {
+            interestedProducts = await CustomerInterest.create({
+              isCustomerInterested: args.isCustomerInterested,
+              products: [...args.products],
+            });
+          } else {
+            throw new GraphQLError("Please select atleast 1 product.", {
+              extensions: {
+                code: "BAD_INPUT",
               },
-            },
-            { runValidators: true, new: true }
-          );
+            });
+          }
+        } else {
+          if (args.products.length === 0) {
+            await CustomerInterest.findOneAndDelete({
+              _id: customerInterestedProducts.interestedProducts,
+            });
+            await Customer.findByIdAndUpdate(context.user._id, {
+              $set: { interestedProducts: null },
+            });
+            // await Customer.findByIdAndUpdate("66a39c27d9e8edaed21653df", {
+            //   $set: { interestedProducts: null },
+            // });
+          } else {
+            interestedProducts = await CustomerInterest.findOneAndUpdate(
+              { _id: customerInterestedProducts.interestedProducts },
+              {
+                $set: {
+                  products: [...args.products],
+                },
+              },
+              { runValidators: true, new: true }
+            );
+          }
         }
 
         await Customer.findByIdAndUpdate(context.user._id, {
           $set: { interestedProducts: interestedProducts },
         });
 
-        // // Added for unittesting
-        // await Customer.findByIdAndUpdate("66a382f274feacbd2c5ccb5b", {
-        //   $set: { interestedProducts: interestedProducts },
-        // });
+        //  // Added for unittesting
+        //   await Customer.findByIdAndUpdate("66a39c27d9e8edaed21653df", {
+        //     $set: { interestedProducts: interestedProducts },
+        //   });
 
         return interestedProducts;
       }

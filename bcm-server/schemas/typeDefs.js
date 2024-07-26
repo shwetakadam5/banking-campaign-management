@@ -28,8 +28,7 @@ type Product {
     _id: ID
     productName: String
     productType: String
-    productDescription: String
-    isCustomerInterested: Boolean
+    productDescription: String   
     rules: [Rule]
   }
     
@@ -69,11 +68,11 @@ type Mutation {
      login(appUserEmail: String!, appUserPassword: String!): AuthorizedUser
      addRule(ruleName : String!, ruleOperandField : String!, ruleOperator: String!, ruleValue : String!) : Rule
      deleteRule(ruleId: ID!): Rule
-     addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
-     updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String,isCustomerInterested: String, rules : [ID!]): Product
+     addProduct(productName : String!, productType : String!, productDescription: String!, rules : [ID!]!) : Product
+     updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String, rules : [ID!]): Product
      sendEmail(email : String!) : EmailResponse
      addCustomer(customerFirstName : String!, customerLastName : String!,customerEmail : String!,customerGender : String!,customerOccupation : String,customerSalary : Int!,customerResidentStatus : String!,customerDateOfBirth : String!) : Customer
-     addInterest(products: [ID]!,isCustomerInterested : Boolean) :  CustomerInterest    
+     addInterest(products: [ID]!) :  CustomerInterest    
   }
 `;
 

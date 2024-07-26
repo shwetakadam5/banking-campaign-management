@@ -15,10 +15,6 @@ const productSchema = new Schema(
       required: [true, "Product description is required."],
       trim: true,
     },
-    isCustomerInterested: {
-      type: Boolean,
-      default: false,
-    },
     rules: [
       {
         type: Schema.Types.ObjectId,

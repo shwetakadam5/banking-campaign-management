@@ -53,8 +53,7 @@ export const QUERY_PRODUCTS = gql`
       _id
       productName
       productType
-      productDescription
-      isCustomerInterested
+      productDescription      
       rules
     }
   }
