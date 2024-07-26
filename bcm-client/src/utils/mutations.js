@@ -113,3 +113,51 @@ export const SEND_EMAIL = gql`
     }
   }
 `;
+
+export const ADD_CUSTOMER = gql`
+  mutation addCustomer(
+    $customerFirstName: String!
+    $customerLastName: String!
+    $customerEmail: String!
+    $customerGender: String!
+    $customerSalary: Int!
+    $customerResidentStatus: String!
+    $customerDateOfBirth: String!
+    $products: [ID!]!
+    $isCustomerEligible: String!
+    $customerOccupation: String
+  ) {
+    addCustomer(
+      customerFirstName: $customerFirstName
+      customerLastName: $customerLastName
+      customerEmail: $customerEmail
+      customerGender: $customerGender
+      customerSalary: $customerSalary
+      customerResidentStatus: $customerResidentStatus
+      customerDateOfBirth: $customerDateOfBirth
+      products: $products
+      isCustomerEligible: $isCustomerEligible
+      customerOccupation: $customerOccupation
+    ) {
+      _id
+      customerFirstName
+      customerLastName
+      customerEmail
+      customerGender
+      customerSalary
+      customerResidentStatus
+      customerDateOfBirth
+      isCustomerEligible
+      customerAge
+      customerOccupation
+      products {
+        _id
+        productName
+        rules {
+          _id
+          ruleName
+        }
+      }
+    }
+  }
+`;
