@@ -1,5 +1,11 @@
 const db = require("../config/connection");
-const { AppUser, Customer, Product, Rule } = require("../models");
+const {
+  AppUser,
+  Customer,
+  Product,
+  Rule,
+  CustomerInterest,
+} = require("../models");
 const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
@@ -8,6 +14,7 @@ db.once("open", async () => {
     await cleanDB("Rule", "rules");
     await cleanDB("Product", "products");
     await cleanDB("Customer", "customers");
+    await cleanDB("CustomerInterest", "customerinterests");
 
     await AppUser.create({
       appUserFirstName: "Shiv",

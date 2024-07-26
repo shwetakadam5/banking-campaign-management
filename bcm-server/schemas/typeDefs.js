@@ -21,6 +21,7 @@ type Customer {
     isCustomerEligible : Boolean
     customerAge : Int
     products : [Product]
+    interestedProducts : [CustomerInterest]
   }
 
 type Product {
@@ -49,7 +50,10 @@ type EmailResponse {
     responseMsg: String
   }
 
-
+type CustomerInterest {
+    isCustomerInterested: Boolean
+    products : [Product]
+  }
 
 type Query {
     appUsers :[AppUser]!
@@ -68,6 +72,7 @@ type Mutation {
      updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String,isCustomerInterested: String, rules : [ID!]): Product
      sendEmail(email : String!) : EmailResponse
      addCustomer(customerFirstName : String!, customerLastName : String!,customerEmail : String!,customerGender : String!,customerOccupation : String,customerSalary : Int!,customerResidentStatus : String!,customerDateOfBirth : String!) : Customer
+     addInterest(products: [ID]!,isCustomerInterested : Boolean) :  CustomerInterest    
   }
 `;
 

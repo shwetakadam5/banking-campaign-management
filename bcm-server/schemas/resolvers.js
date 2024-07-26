@@ -1,4 +1,10 @@
-const { AppUser, Customer, Product, Rule } = require("../models");
+const {
+  AppUser,
+  Customer,
+  Product,
+  Rule,
+  CustomerInterest,
+} = require("../models");
 const { signToken } = require("../utils/jwtAuth");
 const { GraphQLError } = require("graphql");
 const nodemailer = require("nodemailer");
@@ -7,17 +13,24 @@ const {
   sendEmailMessage,
   generatePassword,
 } = require("../utils/helper");
+
 const resolvers = {
   Query: {
     appUsers: async () => {
       return await AppUser.find();
     },
     customers: async () => {
-      const customers = await Customer.find({}).populate("products").populate({
-        path: "products",
-        populate: "rules",
-      });
-
+      const customers = await Customer.find({})
+        .populate("products")
+        .populate({
+          path: "products",
+          populate: "rules",
+        })
+        .populate("interestedProducts")
+        .populate({
+          path: "interestedProducts",
+          populate: "products",
+        });
       return customers;
     },
     products: async (parent, { productName, productType }) => {
@@ -368,6 +381,30 @@ const resolvers = {
       // sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
 
       return customer;
+    },
+    addInterest: async (parent, args, context) => {
+      if (context.user) {
+        const interestedProducts = await CustomerInterest.create({
+          isCustomerInterested: args.isCustomerInterested,
+          products: [...args.products],
+        });
+
+        await Customer.findByIdAndUpdate(context.user._id, {
+          $push: { interestedProducts: interestedProducts },
+        });
+
+        // Added for unittesting
+        // await Customer.findByIdAndUpdate("66a36a650d11868126407fe3", {
+        //   $push: { interestedProducts: interestedProducts },
+        // });
+
+        return interestedProducts;
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
   },
 };

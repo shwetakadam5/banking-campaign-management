@@ -80,6 +80,12 @@ const customerSchema = new Schema(
         ref: "Product",
       },
     ],
+    interestedProducts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "CustomerInterest",
+      },
+    ],
   },
   { toJSON: { getters: true, virtuals: true }, id: false, timestamps: true }
 );
