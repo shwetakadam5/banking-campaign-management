@@ -14,7 +14,7 @@ type Customer {
     customerLastName: String
     customerEmail: String
     customerGender: String
-    customerOccuptation: String
+    customerOccupation: String
     customerSalary : Float
     customerResidentStatus : String
     customerDateOfBirth : String
@@ -63,6 +63,7 @@ type Mutation {
      addProduct(productName : String!, productType : String!, productDescription: String!,isCustomerInterested: String, rules : [ID!]!) : Product
      updateProduct(productId: ID! ,productName : String, productType : String, productDescription: String,isCustomerInterested: String, rules : [ID!]): Product
      sendEmail(email : String!) : EmailResponse
+     addCustomer(customerFirstName : String!, customerLastName : String!,customerEmail : String!,customerGender : String!,customerOccupation : String,customerSalary : Int!,customerResidentStatus : String!,customerDateOfBirth : String!,isCustomerEligible : String!,products : [ID!]!) : Customer
   }
 `;
 
