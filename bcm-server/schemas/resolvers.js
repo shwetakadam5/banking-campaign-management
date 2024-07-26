@@ -191,7 +191,7 @@ const resolvers = {
 
       return emailResponseMessage;
     },
-    addCustomer: async (parent, args) => {
+\    addCustomer: async (parent, args) => {
       const customer = await Customer.create(args);
       return customer;
     },
