@@ -53,9 +53,11 @@ type EmailResponse {
 
 type Query {
     appUsers :[AppUser]!
-    customers :[Customer]!
-    products : [Product]!
+    customers :[Customer]!   
+    products(productName: String, productType : String): [Product]!
     rules : [Rule]!
+    product(_id: ID!): Product
+    rule(_id: ID!): Rule
   }
 
 type Mutation {

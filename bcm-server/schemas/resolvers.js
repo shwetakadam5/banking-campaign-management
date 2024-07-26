@@ -20,11 +20,31 @@ const resolvers = {
 
       return customers;
     },
-    products: async () => {
-      return await Product.find({}).populate("rules");
+    products: async (parent, { productName, productType }) => {
+      const params = {};
+
+      if (productName) {
+        params.productName = {
+          $regex: productName,
+        };
+      }
+
+      if (productType) {
+        params.productType = {
+          $regex: productType,
+        };
+      }
+
+      return await Product.find(params).populate("rules");
+    },
+    product: async (parent, { _id }) => {
+      return await Product.findById(_id).populate("rules");
     },
     rules: async () => {
       return await Rule.find({});
+    },
+    rule: async (parent, { _id }) => {
+      return await Rule.findById(_id);
     },
   },
   Mutation: {
@@ -345,7 +365,7 @@ const resolvers = {
       const emailMessage = `We have offered ${applicableProducts.length} products to you. To view the products offered, kindly login in to the website URL: http://localhost:3000.
         Please use email id as your username and password in the following format (firstnameyearOfbirth)(Eg: john1983)`;
 
-      sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
+      // sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
 
       return customer;
     },
