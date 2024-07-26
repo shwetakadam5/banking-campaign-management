@@ -123,8 +123,7 @@ export const ADD_CUSTOMER = gql`
     $customerSalary: Int!
     $customerResidentStatus: String!
     $customerDateOfBirth: String!
-    $products: [ID!]!
-    $isCustomerEligible: String!
+    $products: [ID!]!    
     $customerOccupation: String
   ) {
     addCustomer(
@@ -135,8 +134,7 @@ export const ADD_CUSTOMER = gql`
       customerSalary: $customerSalary
       customerResidentStatus: $customerResidentStatus
       customerDateOfBirth: $customerDateOfBirth
-      products: $products
-      isCustomerEligible: $isCustomerEligible
+      products: $products      
       customerOccupation: $customerOccupation
     ) {
       _id

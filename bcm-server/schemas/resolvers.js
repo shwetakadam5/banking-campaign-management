@@ -192,7 +192,23 @@ const resolvers = {
       return emailResponseMessage;
     },
     addCustomer: async (parent, args) => {
-      const customer = await Customer.create(args);
+      const {
+        customerFirstName,
+        customerLastName,
+        customerEmail,
+        customerGender,
+        customerOccupation,
+        customerSalary,
+        customerResidentStatus,
+        customerDateOfBirth,
+        products,
+      } = args;
+      let isCustomerEligible = "false";
+      if (products.length !== 0) {
+        isCustomerEligible = "true";
+      }
+
+      const customer = await Customer.create({ ...args, isCustomerEligible });
       return customer;
     },
   },
