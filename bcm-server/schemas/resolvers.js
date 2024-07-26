@@ -14,6 +14,7 @@ const {
   generatePassword,
 } = require("../utils/helper");
 
+const { ObjectId } = require("mongodb");
 const resolvers = {
   Query: {
     appUsers: async () => {
@@ -58,6 +59,30 @@ const resolvers = {
     },
     rule: async (parent, { _id }) => {
       return await Rule.findById(_id);
+    },
+    customersProducts: async (parent, args, context) => {
+      if (context.user) {
+        const customer = await Customer.findById(context.user._id)
+          //const customer = await Customer.findById("66a382f274feacbd2c5ccb5b") for unittesting
+          .populate("products")
+          .populate({
+            path: "products",
+            populate: "rules",
+          })
+          .populate("interestedProducts")
+          .populate({
+            path: "interestedProducts",
+            populate: "products",
+          });
+
+        return customer;
+      }
+
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
   },
   Mutation: {
@@ -384,18 +409,54 @@ const resolvers = {
     },
     addInterest: async (parent, args, context) => {
       if (context.user) {
-        const interestedProducts = await CustomerInterest.create({
-          isCustomerInterested: args.isCustomerInterested,
-          products: [...args.products],
-        });
+        const customerInterestedProducts = await Customer.findById(
+          context.user._id
+        )
+          .select("interestedProducts")
+          .select("products");
+
+        // const customerInterestedProducts = await Customer.findById(
+        //   "66a382f274feacbd2c5ccb5b"
+        // )
+        //   .select("interestedProducts")
+        //   .select("products");
+
+        for (let index = 0; index < args.products.length; index++) {
+          const argElement = args.products[index];
+          const product = await Product.findById(argElement);
+          if (!customerInterestedProducts.products.includes(product._id)) {
+            throw new GraphQLError("Please select from eligible products", {
+              extensions: {
+                code: "BAD_INPUT",
+              },
+            });
+          }
+        }
+        let interestedProducts;
+        if (customerInterestedProducts.interestedProducts == null) {
+          interestedProducts = await CustomerInterest.create({
+            isCustomerInterested: args.isCustomerInterested,
+            products: [...args.products],
+          });
+        } else {
+          interestedProducts = await CustomerInterest.findOneAndUpdate(
+            { _id: customerInterestedProducts.interestedProducts },
+            {
+              $set: {
+                products: [...args.products],
+              },
+            },
+            { runValidators: true, new: true }
+          );
+        }
 
         await Customer.findByIdAndUpdate(context.user._id, {
-          $push: { interestedProducts: interestedProducts },
+          $set: { interestedProducts: interestedProducts },
         });
 
-        // Added for unittesting
-        // await Customer.findByIdAndUpdate("66a36a650d11868126407fe3", {
-        //   $push: { interestedProducts: interestedProducts },
+        // // Added for unittesting
+        // await Customer.findByIdAndUpdate("66a382f274feacbd2c5ccb5b", {
+        //   $set: { interestedProducts: interestedProducts },
         // });
 
         return interestedProducts;

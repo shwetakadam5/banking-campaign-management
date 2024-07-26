@@ -21,7 +21,7 @@ type Customer {
     isCustomerEligible : Boolean
     customerAge : Int
     products : [Product]
-    interestedProducts : [CustomerInterest]
+    interestedProducts : CustomerInterest
   }
 
 type Product {
@@ -62,6 +62,7 @@ type Query {
     rules : [Rule]!
     product(_id: ID!): Product
     rule(_id: ID!): Rule
+    customersProducts: Customer
   }
 
 type Mutation {

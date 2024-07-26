@@ -22,12 +22,27 @@ export const QUERY_CUSTOMERS = gql`
       customerLastName
       customerEmail
       customerGender
-      customerOccuptation
+      customerOccupation
       customerSalary
       customerResidentStatus
       customerDateOfBirth
       isCustomerEligible
       customerAge
+      products {
+        _id
+        productName
+        rules {
+          _id
+          ruleName
+        }
+      }
+      interestedProducts {
+        isCustomerInterested
+        products {
+          _id
+          productName
+        }
+      }
     }
   }
 `;
@@ -110,6 +125,39 @@ export const QUERY_RULE_BY_ID = gql`
       ruleOperandField
       ruleOperator
       ruleValue
+    }
+  }
+`;
+
+export const QUERY_CUSTOMER_PRODUCTS = gql`
+  query getCustomersProducts {
+    customersProducts {
+      _id
+      customerFirstName
+      customerLastName
+      customerEmail
+      customerGender
+      customerOccupation
+      customerSalary
+      customerResidentStatus
+      customerDateOfBirth
+      isCustomerEligible
+      customerAge
+      products {
+        _id
+        productName
+        rules {
+          _id
+          ruleName
+        }
+      }
+      interestedProducts {
+        isCustomerInterested
+        products {
+          _id
+          productName
+        }
+      }
     }
   }
 `;

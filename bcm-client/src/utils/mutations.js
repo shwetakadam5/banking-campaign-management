@@ -140,12 +140,12 @@ export const ADD_CUSTOMER = gql`
       customerLastName
       customerEmail
       customerGender
+      customerOccupation
       customerSalary
       customerResidentStatus
       customerDateOfBirth
       isCustomerEligible
       customerAge
-      customerOccupation
       products {
         _id
         productName
@@ -153,6 +153,24 @@ export const ADD_CUSTOMER = gql`
           _id
           ruleName
         }
+      }
+      interestedProducts {
+        isCustomerInterested
+      }
+    }
+  }
+`;
+
+export const ADD_INTEREST = gql`
+  mutation addInterest($products: [ID]!, $isCustomerInterested: Boolean) {
+    addInterest(
+      products: $products
+      isCustomerInterested: $isCustomerInterested
+    ) {
+      isCustomerInterested
+      products {
+        _id
+        productName
       }
     }
   }
