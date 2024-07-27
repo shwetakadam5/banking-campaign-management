@@ -5,8 +5,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import App from "./App.jsx";
-import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
+import AdminHome from "./pages/AdminHome.jsx";
+import AgentHome from "./pages/AgentHome.jsx";
+import CustomerHome from "./pages/CustomerHome.jsx";
 
 // All the accessible routes, and which components respond to which URL are defined
 const router = createBrowserRouter([
@@ -21,8 +23,16 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/home",
-        element: <Home />,
+        path: "/adminhome",
+        element: <AdminHome />,
+      },
+      {
+        path: "/agenthome",
+        element: <AgentHome />,
+      },
+      {
+        path: "/customerhome",
+        element: <CustomerHome />,
       },
     ],
   },

@@ -27,7 +27,7 @@ db.once("open", async () => {
     const appUser2 = await AppUser.create({
       appUserFirstName: "Shweta",
       appUserLastName: "Kadam",
-      appUserEmail: "shwetakadam5@gmail.com",
+      appUserEmail: "sk5@pwd.com",
       appUserRole: "agent",
       appUserPassword: "password123",
     });

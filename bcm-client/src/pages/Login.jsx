@@ -2,13 +2,14 @@ import { Heading } from "@chakra-ui/react";
 import { useState } from "react";
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 import { useMutation } from "@apollo/client";
-import { LOGIN, SEND_EMAIL } from "../utils/mutations";
-import { jwtlogin } from "../utils/jwtAuthentication";
 import { useNavigate } from "react-router-dom";
+//Application specific imports
+import { LOGIN } from "../utils/mutations";
+import { jwtlogin } from "../utils/jwtAuthentication";
 
 const Login = () => {
   const [state, dispatch] = useGlobalAppContext();
-  // console.log(state.authAppUserDetail);
+
   const navigate = useNavigate();
 
   const [loginFormState, setLoginFormState] = useState({
@@ -17,12 +18,9 @@ const Login = () => {
   });
 
   const [login, { error }] = useMutation(LOGIN);
-  const [sendemail, { error: sendemailerr }] = useMutation(SEND_EMAIL);
 
   const handleLoginFormSubmit = async (event) => {
     event.preventDefault();
-    // console.log(loginFormState);
-    console.log("In Handle Form Submit");
 
     const userLoginResponse = await login({
       variables: {
@@ -30,25 +28,26 @@ const Login = () => {
         appUserPassword: loginFormState.appUserPassword,
       },
     });
-    console.log(userLoginResponse.data);
 
     const token = userLoginResponse.data.login.token;
     jwtlogin(token);
 
+    // set the user details on the global context
     dispatch({
       type: "SET_USER",
       payload: userLoginResponse.data.login.appUserDetails,
     });
 
-    // const sendEmailResponse = await sendemail({
-    //   variables: {
-    //     email: userLoginResponse.data.login.appUserDetails.appUserEmail,
-    //   },
-    // });
-
-    // console.log(sendEmailResponse.responseMsg);
-
-    navigate("/home");
+    //based on user role we can navigate them to the appropriate pages.
+    if (userLoginResponse.data.login.appUserDetails.appUserRole === "admin") {
+      navigate("/adminHome");
+    } else if (
+      userLoginResponse.data.login.appUserDetails.appUserRole === "agent"
+    ) {
+      navigate("/agentHome");
+    } else {
+      navigate("/customerHome");
+    }
   };
 
   const handleLoginFormChange = (event) => {
@@ -58,13 +57,14 @@ const Login = () => {
 
   return (
     <div>
-      <Heading>Login</Heading>
+      <Heading as="h6"> Login </Heading>
       <form onSubmit={handleLoginFormSubmit}>
-        {sendemailerr ? (
+        {error ? (
           <div>
-            <p className="error-text">Sending email failed</p>
+            <p className="error-text">The provided credentials are incorrect</p>
           </div>
         ) : null}
+
         <div>
           <label htmlFor="email">Email address:</label>
           <input
@@ -85,11 +85,7 @@ const Login = () => {
             onChange={handleLoginFormChange}
           />
         </div>
-        {error ? (
-          <div>
-            <p className="error-text">The provided credentials are incorrect</p>
-          </div>
-        ) : null}
+
         <div>
           <button type="submit">Submit</button>
         </div>

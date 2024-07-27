@@ -3,14 +3,14 @@ import { jwtDecode } from "jwt-decode";
 
 // get user data from JSON web token by decoding it
 export const getAuthUserProfile = () => {
-  return jwtDecode(this.getJWToken());
+  return jwtDecode(getJWToken());
 };
 
 // return `true` or `false` if token exists (does not verify if it's expired yet)
 export const isAuthUserloggedIn = () => {
-  const token = this.getJWToken();
+  const token = getJWToken();
 
-  return token && !this.isTokenExpired(token) ? true : false;
+  return token && !isTokenExpired(token) ? true : false;
 };
 
 export const isTokenExpired = (token) => {
@@ -24,7 +24,9 @@ export const isTokenExpired = (token) => {
 
 export const getJWToken = () => {
   // Retrieves the user token from localStorage
-  return localStorage.getItem("id_token");
+  if (localStorage.getItem("id_token") !== null) {
+    return localStorage.getItem("id_token");
+  }
 };
 
 export const jwtlogin = (idToken) => {
@@ -38,5 +40,5 @@ export const jwtlogout = () => {
   // Clear user token and profile data from localStorage
   localStorage.removeItem("id_token");
   // this will reload the page and reset the state of the application
-  window.location.reload();
+  // window.location.reload();
 };

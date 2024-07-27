@@ -9,6 +9,8 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { GlobalAppProvider } from "./utils/GlobalAppContext";
 
+import NavBar from "./components/NavBar";
+
 // Construct the main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -39,6 +41,7 @@ function App() {
       <GlobalAppProvider>
         <>
           {/* The Outlet component will conditionally swap between the different pages according to the URL */}
+          <NavBar />
           <Outlet />
         </>
       </GlobalAppProvider>
