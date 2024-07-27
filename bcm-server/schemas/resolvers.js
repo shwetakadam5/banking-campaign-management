@@ -385,7 +385,7 @@ const resolvers = {
         ...args,
         isCustomerEligible,
         products: [...products],
-        // createdBy: "66a449d6877fc178b39b4d18",
+        // createdBy: context.user._id,
       });
 
       const newAppUser = await AppUser.create({
