@@ -85,6 +85,10 @@ const customerSchema = new Schema(
       ref: "CustomerInterest",
       default: null,
     },
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "AppUser",
+    },
   },
   { toJSON: { getters: true, virtuals: true }, id: false, timestamps: true }
 );

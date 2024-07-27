@@ -16,7 +16,7 @@ db.once("open", async () => {
     await cleanDB("Customer", "customers");
     await cleanDB("CustomerInterest", "customerinterests");
 
-    await AppUser.create({
+    const appUser1 = await AppUser.create({
       appUserFirstName: "Shiv",
       appUserLastName: "Zutshi",
       appUserEmail: "shivzutshi@password.com",
@@ -24,7 +24,7 @@ db.once("open", async () => {
       appUserPassword: "password123",
     });
 
-    await AppUser.create({
+    const appUser2 = await AppUser.create({
       appUserFirstName: "Shweta",
       appUserLastName: "Kadam",
       appUserEmail: "shwetakadam5@gmail.com",
@@ -32,7 +32,7 @@ db.once("open", async () => {
       appUserPassword: "password123",
     });
 
-    await AppUser.create({
+    const appUser3 = await AppUser.create({
       appUserFirstName: "Shulin",
       appUserLastName: "Z",
       appUserEmail: "shulin@password.com",
@@ -117,6 +117,7 @@ db.once("open", async () => {
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
       products: [product1._id],
+      createdBy: appUser2._id,
     });
 
     await Customer.create({
@@ -129,6 +130,7 @@ db.once("open", async () => {
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
       products: [product2._id],
+      createdBy: appUser2._id,
     });
 
     await Customer.create({
@@ -141,6 +143,7 @@ db.once("open", async () => {
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
       products: [product1._id, product2._id, product3._id],
+      createdBy: appUser2._id,
     });
 
     console.log("Customers seeded");

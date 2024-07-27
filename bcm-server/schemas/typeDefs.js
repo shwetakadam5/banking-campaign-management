@@ -22,6 +22,7 @@ type Customer {
     customerAge : Int
     products : [Product]
     interestedProducts : CustomerInterest
+    createdBy : AppUser
   }
 
 type Product {

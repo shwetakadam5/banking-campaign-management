@@ -43,6 +43,14 @@ export const QUERY_CUSTOMERS = gql`
           productName
         }
       }
+      createdBy {
+        _id
+        appUserFirstName
+        appUserLastName
+        appUserEmail
+        appUserRole
+        appUserFullName
+      }
     }
   }
 `;
@@ -53,7 +61,7 @@ export const QUERY_PRODUCTS = gql`
       _id
       productName
       productType
-      productDescription      
+      productDescription
       rules
     }
   }
@@ -156,6 +164,14 @@ export const QUERY_CUSTOMER_PRODUCTS = gql`
           _id
           productName
         }
+      }
+      createdBy {
+        _id
+        appUserFirstName
+        appUserLastName
+        appUserEmail
+        appUserRole
+        appUserFullName
       }
     }
   }

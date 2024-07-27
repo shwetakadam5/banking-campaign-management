@@ -31,7 +31,8 @@ const resolvers = {
         .populate({
           path: "interestedProducts",
           populate: "products",
-        });
+        })
+        .populate("createdBy");
       return customers;
     },
     products: async (parent, { productName, productType }) => {
@@ -74,7 +75,8 @@ const resolvers = {
           .populate({
             path: "interestedProducts",
             populate: "products",
-          });
+          })
+          .populate("createdBy");
 
         return customer;
       }
@@ -226,7 +228,8 @@ const resolvers = {
 
       return emailResponseMessage;
     },
-    addCustomer: async (parent, args) => {
+    addCustomer: async (parent, args, context) => {
+      // if (context.user) {
       const {
         customerFirstName,
         customerLastName,
@@ -382,6 +385,7 @@ const resolvers = {
         ...args,
         isCustomerEligible,
         products: [...products],
+        // createdBy: "66a449d6877fc178b39b4d18",
       });
 
       const newAppUser = await AppUser.create({
@@ -399,6 +403,12 @@ const resolvers = {
       // sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
 
       return customer;
+      // }
+      // throw new GraphQLError("Could not authenticate user.", {
+      //   extensions: {
+      //     code: "UNAUTHENTICATED",
+      //   },
+      // });
     },
     addInterest: async (parent, args, context) => {
       if (context.user) {
