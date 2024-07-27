@@ -7,14 +7,16 @@ import {
   Spacer,
   HStack,
 } from "@chakra-ui/react";
-//Importing the global context related files.
-import { useGlobalAppContext } from "../../utils/GlobalAppContext";
-import { jwtlogout, isAuthUserloggedIn } from "../../utils/jwtAuthentication";
+
+import {
+  jwtlogout,
+  isAuthUserloggedIn,
+  getAuthUserProfile,
+} from "../../utils/jwtAuthentication";
 import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
-  const [state, dispatch] = useGlobalAppContext();
-  console.log(state);
+  
   const navigate = useNavigate();
   const applicationLogout = (event) => {
     event.preventDefault();
@@ -29,9 +31,9 @@ const NavBar = () => {
         <Spacer />
         <HStack spacing="20px">
           <Box p="10px" bg="gray.200">
-            {state.authAppUserDetail.appUserFullName}
+            {getAuthUserProfile().authenticatedUser.appUserFullName}
           </Box>
-          <Text>{state.authAppUserDetail.appUserEmail}</Text>
+          <Text>{getAuthUserProfile().authenticatedUser.appUserEmail}</Text>
           <Button colorScheme="blue" onClick={applicationLogout}>
             Logout
           </Button>
