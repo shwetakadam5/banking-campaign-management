@@ -136,8 +136,8 @@ db.once("open", async () => {
     await Customer.create({
       customerFirstName: "Customer3FN",
       customerLastName: "Customer3LN",
-      customerEmail: "abcd3@abc.com",
-      customerGender: "female",
+      customerEmail: "shulin@password.com",
+      customerGender: "male",
       customerOccuptation: "Occuptaion",
       customerSalary: 1000,
       customerResidentStatus: "PR",

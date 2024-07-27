@@ -12,10 +12,15 @@ import { Box, Grid, GridItem, SimpleGrid, Text } from "@chakra-ui/react";
 import SideBar from "../components/SideBar";
 
 import { useEffect } from "react";
+import { QUERY_CUSTOMER_PRODUCTS } from "../utils/queries";
 
 const CustomerHome = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
+
+  const { loading, data } = useQuery(QUERY_CUSTOMER_PRODUCTS);
+
+  const products = data?.customersProducts.products || [];
 
   useEffect(() => {
     toast.success("Welcome!", {
@@ -38,20 +43,13 @@ const CustomerHome = () => {
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
           <>
-            <SimpleGrid p="10px" spacing={10} minChildWidth="250px">
-              <Box bg="white" h="200px" border="1px solid">
-                <Text color={{ base: "pink", md: "blue", lg: "green" }}>
-                  HELLO
-                </Text>
-              </Box>
-              <Box bg="white" h="200px" border="1px solid"></Box>
-              <Box bg="white" h="200px" border="1px solid"></Box>
-              <Box bg="white" h="200px" border="1px solid"></Box>
-
-              <Box bg="white" h="200px" border="1px solid"></Box>
-              <Box bg="white" h="200px" border="1px solid"></Box>
-              <Box bg="white" h="200px" border="1px solid"></Box>
-              <Box bg="white" h="200px" border="1px solid"></Box>
+            <SimpleGrid spacing={10} minChildWidth="300px">
+              <div>
+                {products &&
+                  products.map((product) => (
+                    <div key={product._id}>{product.productName}</div>
+                  ))}
+              </div>
             </SimpleGrid>
           </>
         </GridItem>

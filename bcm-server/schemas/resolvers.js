@@ -63,9 +63,9 @@ const resolvers = {
     },
     customersProducts: async (parent, args, context) => {
       if (context.user) {
-        // //for unittesting
-        // const customer = await Customer.findById("66a395230797e0aa3da88a7f")
-        const customer = await Customer.findById(context.user._id)
+        const customer = await Customer.findOne({
+          customerEmail: context.user.appUserEmail,
+        })
           .populate("products")
           .populate({
             path: "products",
@@ -77,6 +77,14 @@ const resolvers = {
             populate: "products",
           })
           .populate("createdBy");
+
+        if (!customer) {
+          throw new GraphQLError("No customer found", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          });
+        }
 
         return customer;
       }
