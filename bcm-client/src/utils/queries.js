@@ -64,7 +64,15 @@ export const QUERY_PRODUCTS = gql`
       productName
       productType
       productDescription
-      rules
+      rules {
+        _id
+        ruleName
+        ruleOperandField
+        ruleOperator
+        ruleValue
+      }
+      applicableRulesCount
+      allRuleNames
     }
   }
 `;
@@ -106,7 +114,12 @@ export const QUERY_PRODUCT_BY_PRODUCT_TYPE = gql`
       rules {
         _id
         ruleName
+        ruleOperandField
+        ruleOperator
+        ruleValue
       }
+      applicableRulesCount
+      allRuleNames
     }
   }
 `;
@@ -114,14 +127,19 @@ export const QUERY_PRODUCT_BY_PRODUCT_TYPE = gql`
 export const QUERY_PRODUCT_BY_ID = gql`
   query getProduct($id: ID!) {
     product(_id: $id) {
-      _id
+     _id
       productName
       productType
       productDescription
       rules {
         _id
         ruleName
+        ruleOperandField
+        ruleOperator
+        ruleValue
       }
+      applicableRulesCount
+      allRuleNames
     }
   }
 `;

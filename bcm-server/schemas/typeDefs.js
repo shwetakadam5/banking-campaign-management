@@ -32,6 +32,9 @@ type Product {
     productType: String
     productDescription: String   
     rules: [Rule]
+    applicableRulesCount : Int
+    allRuleNames :String
+
   }
     
 type Rule {

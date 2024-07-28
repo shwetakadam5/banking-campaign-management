@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { useEffect } from "react";
 import SideBar from "../components/SideBar";
 
-import { QUERY_CUSTOMERS } from "../utils/queries";
+import { QUERY_RULES } from "../utils/queries";
 import {
   Grid,
   GridItem,
@@ -39,20 +39,19 @@ import {
 } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
-const AdminHome = () => {
+const ViewRules = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
-  const { loading, data } = useQuery(QUERY_CUSTOMERS);
+  const { loading, data } = useQuery(QUERY_RULES);
 
-  const customers = data?.customers || [];
+  const rules = data?.rules || [];
 
-  console.log(customers);
+  console.log(rules);
 
   return (
     <>
       <Grid templateColumns="repeat(6, 1fr)" bg="blue.50">
-        {/* The Outlet component will conditionally swap between the different pages according to the URL */}
         <GridItem
           as="aside"
           colSpan={{ base: 6, md: 3, lg: 2, xl: 1 }}
@@ -70,47 +69,32 @@ const AdminHome = () => {
               colorScheme="blue"
               border={"1px solid"}
             >
-              <TableCaption placement="top">Customers</TableCaption>
+              <TableCaption placement="top">Rules </TableCaption>
               <Thead bg={"blue.700"}>
                 <Tr>
-                  <Th color={"aliceblue"}>Customer First Name</Th>
-                  <Th color={"aliceblue"}>Customer Last Name</Th>
-                  <Th color={"aliceblue"}>Customer Email</Th>
-                  <Th color={"aliceblue"}>Customer Eligible</Th>
-                  <Th color={"aliceblue"}># Eligible Products</Th>
-                  <Th color={"aliceblue"}>Customer Interested</Th>
-                  <Th color={"aliceblue"}># Interested Products</Th>
-                  <Th color={"aliceblue"}>Customer Created By</Th>
+                  <Th color={"aliceblue"}>Rule Name</Th>
+                  <Th color={"aliceblue"}>Rule Field</Th>
+                  <Th color={"aliceblue"}>Rule Operator</Th>
+                  <Th color={"aliceblue"}>Rule Value</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {customers &&
-                  customers.map((customer) => (
-                    <Tr key={customer._id}>
-                      <Td>{customer.customerFirstName}</Td>
-                      <Td>{customer.customerLastName} </Td>
-                      <Td>{customer.customerEmail} </Td>
-                      <Td>{customer.isCustomerEligible ? "Yes" : "No"} </Td>
-                      <Td>{customer.eligibleProductsCount} </Td>
+                {rules &&
+                  rules.map((rule) => (
+                    <Tr key={rule._id}>
+                      <Td>{rule.ruleName}</Td>
+                      <Td>{rule.ruleOperandField} </Td>
                       <Td>
-                        {customer.interestedProducts?.isCustomerInterested
-                          ? "Yes"
-                          : "No"}
+                        {rule.ruleOperator == ("greater" || "less")
+                          ? rule.ruleOperator + " " + "than"
+                          : rule.ruleOperator}
                       </Td>
-                      <Td>
-                        {customer.interestedProducts?.interestedProductsCount ||
-                          "0"}
-                      </Td>
-                      <Td>{customer.createdBy?.appUserFullName || ""} </Td>
+                      <Td>{rule.ruleValue} </Td>
                     </Tr>
                   ))}
               </Tbody>
               <Tfoot>
                 <Tr>
-                  <Th> </Th>
-                  <Th> </Th>
-                  <Th> </Th>
-                  <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
@@ -125,4 +109,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default ViewRules;

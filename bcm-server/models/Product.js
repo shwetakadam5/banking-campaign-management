@@ -39,6 +39,24 @@ productSchema.path("rules").validate(function (value) {
   }
 });
 
+// Created a virtual property `applicableRulesCount` that retrieves the length of the applicable rules.
+productSchema.virtual("applicableRulesCount").get(function () {
+  return this.rules.length;
+});
+
+productSchema
+  .virtual("allRuleNames")
+  // Getter
+  .get(function () {
+    let allRuleNames = [];
+    for (let index = 0; index < this.rules.length; index++) {
+      const element = this.rules[index];
+      allRuleNames.push(element.ruleName);
+    }
+
+    return `${allRuleNames.toString()}`;
+  });
+
 const Product = model("Product", productSchema);
 
 module.exports = Product;

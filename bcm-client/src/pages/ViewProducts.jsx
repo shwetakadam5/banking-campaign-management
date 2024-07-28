@@ -9,7 +9,8 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { useEffect } from "react";
 import SideBar from "../components/SideBar";
 
-import { QUERY_CUSTOMERS } from "../utils/queries";
+import { QUERY_PRODUCTS } from "../utils/queries";
+StepSeparator;
 import {
   Grid,
   GridItem,
@@ -36,18 +37,20 @@ import {
   CardHeader,
   Flex,
   TableCaption,
+  StepSeparator,
 } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
-const AdminHome = () => {
+const ViewProducts = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
-  const { loading, data } = useQuery(QUERY_CUSTOMERS);
+  const { productName } = state;
+  const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const customers = data?.customers || [];
+  const products = data?.products || [];
 
-  console.log(customers);
+  console.log(products);
 
   return (
     <>
@@ -70,46 +73,30 @@ const AdminHome = () => {
               colorScheme="blue"
               border={"1px solid"}
             >
-              <TableCaption placement="top">Customers</TableCaption>
+              <TableCaption placement="top">Products </TableCaption>
               <Thead bg={"blue.700"}>
                 <Tr>
-                  <Th color={"aliceblue"}>Customer First Name</Th>
-                  <Th color={"aliceblue"}>Customer Last Name</Th>
-                  <Th color={"aliceblue"}>Customer Email</Th>
-                  <Th color={"aliceblue"}>Customer Eligible</Th>
-                  <Th color={"aliceblue"}># Eligible Products</Th>
-                  <Th color={"aliceblue"}>Customer Interested</Th>
-                  <Th color={"aliceblue"}># Interested Products</Th>
-                  <Th color={"aliceblue"}>Customer Created By</Th>
+                  <Th color={"aliceblue"}>Product Name</Th>
+                  <Th color={"aliceblue"}>Product Type</Th>
+                  <Th color={"aliceblue"}>Product Description</Th>
+                  <Th color={"aliceblue"}># Rules</Th>
+                  <Th color={"aliceblue"}>Rule names</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {customers &&
-                  customers.map((customer) => (
-                    <Tr key={customer._id}>
-                      <Td>{customer.customerFirstName}</Td>
-                      <Td>{customer.customerLastName} </Td>
-                      <Td>{customer.customerEmail} </Td>
-                      <Td>{customer.isCustomerEligible ? "Yes" : "No"} </Td>
-                      <Td>{customer.eligibleProductsCount} </Td>
-                      <Td>
-                        {customer.interestedProducts?.isCustomerInterested
-                          ? "Yes"
-                          : "No"}
-                      </Td>
-                      <Td>
-                        {customer.interestedProducts?.interestedProductsCount ||
-                          "0"}
-                      </Td>
-                      <Td>{customer.createdBy?.appUserFullName || ""} </Td>
+                {products &&
+                  products.map((product) => (
+                    <Tr key={product._id}>
+                      <Td>{product.productName}</Td>
+                      <Td>{product.productName} </Td>
+                      <Td>{product.productName} </Td>
+                      <Td>{product.applicableRulesCount}</Td>
+                      <Td>{product.allRuleNames}</Td>
                     </Tr>
                   ))}
               </Tbody>
               <Tfoot>
                 <Tr>
-                  <Th> </Th>
-                  <Th> </Th>
-                  <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
@@ -125,4 +112,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default ViewProducts;

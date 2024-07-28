@@ -10,6 +10,8 @@ import AdminHome from "./pages/AdminHome.jsx";
 import AgentHome from "./pages/AgentHome.jsx";
 import CustomerHome from "./pages/CustomerHome.jsx";
 import CustomerAddInterest from "./pages/CustomerAddInterest.jsx";
+import ViewRules from "./pages/ViewRules.jsx";
+import ViewProducts from "./pages/ViewProducts.jsx";
 
 // All the accessible routes, and which components respond to which URL are defined
 const router = createBrowserRouter([
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: "/addinterest",
         element: <CustomerAddInterest />,
+      },
+      {
+        path: "/viewrules",
+        element: <ViewRules />,
+      },
+      {
+        path: "/viewproducts",
+        element: <ViewProducts />,
       },
     ],
   },
