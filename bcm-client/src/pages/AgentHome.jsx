@@ -225,13 +225,7 @@ const AgentHome = () => {
               </FormControl>
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="customerGender">Gender</FormLabel>
-                {/* <Input
-                  placeholder="gender"
-                  name="customerGender"
-                  type="input"
-                  id="customerGender"
-                  onChange={handleAddCustomerFormChange}
-                /> */}
+
                 <Select
                   placeholder="Select gender"
                   onChange={handleAddCustomerFormChange}
@@ -262,13 +256,6 @@ const AgentHome = () => {
                 <FormLabel htmlFor="customerResidentStatus">
                   Resident Status
                 </FormLabel>
-                {/* <Input
-                  placeholder=""
-                  name="customerResidentStatus"
-                  type="input"
-                  id="customerResidentStatus"
-                  onChange={handleAddCustomerFormChange}
-                /> */}
                 <Select
                   placeholder="Select resident status"
                   onChange={handleAddCustomerFormChange}

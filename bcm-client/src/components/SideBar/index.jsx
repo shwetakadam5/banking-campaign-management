@@ -33,7 +33,13 @@ const SideBar = () => {
   ) {
     return (
       <List color="white" fontSize="1.2em" spacing={4}>
-        <ListItem>Agent links</ListItem>
+        <ListItem>
+          {" "}
+          <NavLink to="/agenthome">
+            <ListIcon as={EditIcon} color="blue.800"></ListIcon>
+            Add Customer
+          </NavLink>
+        </ListItem>
       </List>
     );
   } else if (
@@ -42,7 +48,36 @@ const SideBar = () => {
   ) {
     return (
       <List color="white" fontSize="1.2em" spacing={4}>
-        <ListItem>Admin Links</ListItem>
+        <ListItem>
+          <NavLink to="/adminhome">
+            <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
+            View All Customers
+          </NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/viewrules">
+            <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
+            View All Rules
+          </NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/viewproducts">
+            <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
+            View All Products
+          </NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/addrules">
+            <ListIcon as={EditIcon} color="blue.800"></ListIcon>
+            Add Rules
+          </NavLink>
+        </ListItem>
+        <ListItem>
+          <NavLink to="/addproducts">
+            <ListIcon as={EditIcon} color="blue.800"></ListIcon>
+            Add Products
+          </NavLink>
+        </ListItem>
       </List>
     );
   }
