@@ -23,6 +23,7 @@ type Customer {
     products : [Product]
     interestedProducts : CustomerInterest
     createdBy : AppUser
+    eligibleProductsCount : Int
   }
 
 type Product {
@@ -54,6 +55,7 @@ type CustomerInterest {
     _id: ID
     isCustomerInterested: Boolean
     products : [Product]
+    interestedProductsCount :Int
     
   }
 

@@ -116,6 +116,7 @@ db.once("open", async () => {
       customerSalary: 100,
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      isCustomerEligible: "true",
       products: [product1._id],
       createdBy: appUser2._id,
     });
@@ -129,6 +130,7 @@ db.once("open", async () => {
       customerSalary: 1000,
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      isCustomerEligible: "true",
       products: [product2._id],
       createdBy: appUser2._id,
     });
@@ -142,7 +144,21 @@ db.once("open", async () => {
       customerSalary: 1000,
       customerResidentStatus: "PR",
       customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      isCustomerEligible: "true",
       products: [product1._id, product2._id, product3._id],
+      createdBy: appUser2._id,
+    });
+
+    await Customer.create({
+      customerFirstName: "Customer4FN",
+      customerLastName: "Customer4LN",
+      customerEmail: "cust4@password.com",
+      customerGender: "male",
+      customerOccuptation: "Occuptaion",
+      customerSalary: 10,
+      customerResidentStatus: "VISITORVISA",
+      customerDateOfBirth: "2023-05-05T09:45:00.000Z",
+      products: [],
       createdBy: appUser2._id,
     });
 

@@ -108,7 +108,10 @@ customerSchema.virtual("customerAge").get(function () {
   return customerAge;
 });
 
-//create a virtual to generate default password
+// Created a virtual property `eligibleProductsCount` that retrieves the length of the eligible products.
+customerSchema.virtual("eligibleProductsCount").get(function () {
+  return this.products.length;
+});
 
 const Customer = model("Customer", customerSchema);
 

@@ -64,7 +64,6 @@ const CustomerHome = () => {
   return (
     <>
       <Grid templateColumns="repeat(6, 1fr)" bg="blue.50">
-        {/* The Outlet component will conditionally swap between the different pages according to the URL */}
         <GridItem
           as="aside"
           colSpan={{ base: 6, md: 3, lg: 2, xl: 1 }}

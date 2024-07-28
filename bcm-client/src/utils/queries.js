@@ -28,6 +28,7 @@ export const QUERY_CUSTOMERS = gql`
       customerDateOfBirth
       isCustomerEligible
       customerAge
+      eligibleProductsCount
       products {
         _id
         productName
@@ -38,6 +39,7 @@ export const QUERY_CUSTOMERS = gql`
       }
       interestedProducts {
         isCustomerInterested
+        interestedProductsCount
         products {
           _id
           productName
@@ -150,6 +152,7 @@ export const QUERY_CUSTOMER_PRODUCTS = gql`
       customerDateOfBirth
       isCustomerEligible
       customerAge
+      eligibleProductsCount
       products {
         _id
         productName
@@ -164,6 +167,7 @@ export const QUERY_CUSTOMER_PRODUCTS = gql`
           productType
           productDescription
         }
+        interestedProductsCount
       }
       createdBy {
         _id
@@ -182,6 +186,7 @@ export const QUERY_CUSTOMER_INTEREST = gql`
     customerInterest(_id: $id) {
       _id
       isCustomerInterested
+      interestedProductsCount
       products {
         _id
         productName

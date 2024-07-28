@@ -4,27 +4,53 @@ import { useQuery } from "@apollo/client";
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { useEffect } from "react";
 import SideBar from "../components/SideBar";
 
-import { Grid, GridItem } from "@chakra-ui/react";
+import { QUERY_CUSTOMERS } from "../utils/queries";
+import {
+  Grid,
+  GridItem,
+  Table,
+  Th,
+  Td,
+  Tr,
+  Tfoot,
+  Thead,
+  Tbody,
+  TableContainer,
+  SimpleGrid,
+  Text,
+  Heading,
+  HStack,
+  Button,
+  Divider,
+  Checkbox,
+  Spacer,
+  Box,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Flex,
+  TableCaption,
+} from "@chakra-ui/react";
+import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 const AdminHome = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
-  useEffect(() => {
-    toast.success("Welcome!", {
-      autoClose: 2000, // milliseconds
-    });
-  }, []);
+  const { loading, data } = useQuery(QUERY_CUSTOMERS);
+
+  const customers = data?.customers || [];
+
+  console.log(customers);
 
   return (
     <>
-      <ToastContainer />
       <Grid templateColumns="repeat(6, 1fr)" bg="blue.50">
         {/* The Outlet component will conditionally swap between the different pages according to the URL */}
         <GridItem
@@ -37,7 +63,56 @@ const AdminHome = () => {
           <SideBar />
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
-          <div>ADMIN HOME PAGE</div>
+          <TableContainer>
+            <Table
+              size="sm"
+              variant="striped"
+              colorScheme="blue"
+              border={"1px solid"}
+            >
+              <TableCaption placement="top">Customer Data</TableCaption>
+              <Thead bg={"blue.700"}>
+                <Tr>
+                  <Th color={"aliceblue"}>Customer First Name</Th>
+                  <Th color={"aliceblue"}>Customer Last Name</Th>
+                  <Th color={"aliceblue"}>Customer Email</Th>
+                  <Th color={"aliceblue"}>Customer Eligible</Th>
+                  <Th color={"aliceblue"}># Eligible Products</Th>
+                  <Th color={"aliceblue"}>Customer Interested</Th>
+                  <Th color={"aliceblue"}># Interested Products</Th>
+                  <Th color={"aliceblue"}>Customer Created By</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {customers &&
+                  customers.map((customer) => (
+                    <Tr key={customer._id}>
+                      <Td>{customer.customerFirstName}</Td>
+                      <Td>{customer.customerLastName} </Td>
+                      <Td>{customer.customerEmail} </Td>
+                      <Td>{customer.isCustomerEligible ? "Yes" : "No"} </Td>
+                      <Td>{customer.eligibleProductsCount} </Td>
+                      <Td>
+                        {customer.interestedProducts?.isCustomerInterested
+                          ? "Yes"
+                          : "No"}
+                      </Td>
+                      <Td>
+                        {customer.interestedProducts?.interestedProductsCount ||
+                          "0"}
+                      </Td>
+                      <Td>{customer.createdBy?.appUserFullName || ""} </Td>
+                    </Tr>
+                  ))}
+              </Tbody>
+              <Tfoot>
+                <Tr>
+                  <Th>-</Th>
+                  <Th>-</Th>
+                </Tr>
+              </Tfoot>
+            </Table>
+          </TableContainer>
         </GridItem>
       </Grid>
     </>
