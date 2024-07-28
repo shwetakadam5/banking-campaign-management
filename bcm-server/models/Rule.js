@@ -41,7 +41,7 @@ const ruleSchema = new Schema(
     },
     ruleValue: {
       type: String,
-      match: [/^[a-zA-Z0-9]+$/, "Please provide valid rule value."],
+      // match: [/^[a-zA-Z0-9]+$/, "Please provide valid rule value."],
     },
   },
   {

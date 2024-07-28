@@ -66,18 +66,6 @@ const SideBar = () => {
             View All Products
           </NavLink>
         </ListItem>
-        <ListItem>
-          <NavLink to="/addrules">
-            <ListIcon as={EditIcon} color="blue.800"></ListIcon>
-            Add Rules
-          </NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink to="/addproducts">
-            <ListIcon as={EditIcon} color="blue.800"></ListIcon>
-            Add Products
-          </NavLink>
-        </ListItem>
       </List>
     );
   }

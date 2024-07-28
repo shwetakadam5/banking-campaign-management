@@ -12,6 +12,7 @@ import CustomerHome from "./pages/CustomerHome.jsx";
 import CustomerAddInterest from "./pages/CustomerAddInterest.jsx";
 import ViewRules from "./pages/ViewRules.jsx";
 import ViewProducts from "./pages/ViewProducts.jsx";
+import AddRule from "./pages/AddRule.jsx";
 
 // All the accessible routes, and which components respond to which URL are defined
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/viewproducts",
         element: <ViewProducts />,
+      },
+      {
+        path: "/createrule",
+        element: <AddRule />,
       },
     ],
   },

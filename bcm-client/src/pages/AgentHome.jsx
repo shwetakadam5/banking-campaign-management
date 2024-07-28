@@ -6,8 +6,9 @@ import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+
 import SideBar from "../components/SideBar";
 
 import {
@@ -25,7 +26,9 @@ import {
 import { ADD_CUSTOMER } from "../utils/mutations";
 
 const AgentHome = () => {
+  const navigate = useNavigate();
   // Extracting the context details
+
   const [state, dispatch] = useGlobalAppContext();
   const dateInputRef = useRef(null);
 
@@ -77,16 +80,19 @@ const AgentHome = () => {
         },
       });
       console.log(customerCreated);
+      toast.success("Customer Created Successfully", {
+        autoClose: 2000, // milliseconds
+      });
+      setAddCustomerFormState({
+        ...addCustomerFormState,
+        customerFirstName: " ",
+      });
     } else {
       console.log("Form contains validation errors.");
       toast.error("Form contains validation errors.", {
         autoClose: 2000, // milliseconds
       });
     }
-
-    // toast.success("Customer Created Successfully", {
-    //   autoClose: 2000, // milliseconds
-    // });
   };
 
   const handleAddCustomerFormChange = (event) => {

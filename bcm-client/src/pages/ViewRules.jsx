@@ -1,15 +1,18 @@
 //import the useQuery hook from @apollo/client
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
-
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { useEffect } from "react";
+
 import SideBar from "../components/SideBar";
+import { Link } from "react-router-dom";
 
 import { QUERY_RULES } from "../utils/queries";
+
 import {
   Grid,
   GridItem,
@@ -21,23 +24,13 @@ import {
   Thead,
   Tbody,
   TableContainer,
-  SimpleGrid,
-  Text,
-  Heading,
-  HStack,
-  Button,
-  Divider,
-  Checkbox,
-  Spacer,
-  Box,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Flex,
   TableCaption,
+  Button,
+  Box,
+  Text,
 } from "@chakra-ui/react";
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+import { SmallAddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { DELETE_RULE } from "../utils/mutations";
 
 const ViewRules = () => {
   // Extracting the context details
@@ -45,9 +38,24 @@ const ViewRules = () => {
 
   const { loading, data } = useQuery(QUERY_RULES);
 
+  const [deleteRule, { error: deleteError }] = useMutation(DELETE_RULE, {
+    refetchQueries: [QUERY_RULES, "getRules"],
+  });
+
   const rules = data?.rules || [];
 
   console.log(rules);
+
+  const handleDelete = async (ruleId) => {
+    const confirm = window.confirm("Would you like to delete?");
+    if (confirm) {
+      const { data, deleteError } = await deleteRule({
+        variables: {
+          ruleId: ruleId,
+        },
+      });
+    }
+  };
 
   return (
     <>
@@ -62,6 +70,17 @@ const ViewRules = () => {
           <SideBar />
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
+          <Box>
+            <Button rightIcon={<SmallAddIcon />} colorScheme="blue">
+              <Link to="/createrule">Add</Link>
+            </Button>
+          </Box>
+          {deleteError && (
+            <Text color={"red.500"}>
+              {"Rule is linked to product and cannot be deleted."}
+            </Text>
+          )}
+
           <TableContainer>
             <Table
               size="sm"
@@ -76,6 +95,7 @@ const ViewRules = () => {
                   <Th color={"aliceblue"}>Rule Field</Th>
                   <Th color={"aliceblue"}>Rule Operator</Th>
                   <Th color={"aliceblue"}>Rule Value</Th>
+                  <Th color={"aliceblue"}>Action</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -90,11 +110,21 @@ const ViewRules = () => {
                           : rule.ruleOperator}
                       </Td>
                       <Td>{rule.ruleValue} </Td>
+                      <Td>
+                        <Button
+                          variant={"ghost"}
+                          rightIcon={<DeleteIcon />}
+                          onClick={() => {
+                            handleDelete(rule._id);
+                          }}
+                        ></Button>
+                      </Td>
                     </Tr>
                   ))}
               </Tbody>
               <Tfoot>
                 <Tr>
+                  <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
