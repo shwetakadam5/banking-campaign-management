@@ -107,8 +107,14 @@ const AdminHome = () => {
               </Tbody>
               <Tfoot>
                 <Tr>
-                  <Th>-</Th>
-                  <Th>-</Th>
+                  <Th> </Th>
+                  <Th> </Th>
+                  <Th> </Th>
+                  <Th> </Th>
+                  <Th> </Th>
+                  <Th> </Th>
+                  <Th> </Th>
+                  <Th> </Th>
                 </Tr>
               </Tfoot>
             </Table>
