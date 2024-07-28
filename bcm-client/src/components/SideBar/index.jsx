@@ -8,7 +8,6 @@ import {
 } from "../../utils/jwtAuthentication";
 
 const SideBar = () => {
-  console.log(isAuthUserloggedIn());
   if (
     isAuthUserloggedIn() &&
     getAuthUserProfile().authenticatedUser.appUserRole == "customer"

@@ -246,186 +246,191 @@ const resolvers = {
       return emailResponseMessage;
     },
     addCustomer: async (parent, args, context) => {
-      // if (context.user) {
-      const {
-        customerFirstName,
-        customerLastName,
-        customerEmail,
-        customerGender,
-        customerOccupation,
-        customerSalary,
-        customerResidentStatus,
-        customerDateOfBirth,
-        // products,
-      } = args;
-      let isCustomerEligible = "false";
-      let products = [];
+      if (context.user) {
+        const {
+          customerFirstName,
+          customerLastName,
+          customerEmail,
+          customerGender,
+          customerOccupation,
+          customerSalary,
+          customerResidentStatus,
+          customerDateOfBirth,
+        } = args;
+        let isCustomerEligible = "false";
+        let products = [];
 
-      const customerAge = calculateCustomerAge(customerDateOfBirth);
-      const generatedPassword = generatePassword(
-        customerFirstName,
-        customerDateOfBirth
-      );
+        const customerAge = calculateCustomerAge(customerDateOfBirth);
+        const generatedPassword = generatePassword(
+          customerFirstName,
+          customerDateOfBirth
+        );
 
-      //fetch all the products
+        //fetch all the products
 
-      const productList = await Product.find({}).populate("rules");
+        const productList = await Product.find({}).populate("rules");
 
-      let applicableProducts = [];
+        let applicableProducts = [];
 
-      // loop through the products and the rules under each product and check against the customer values.
-      //if all rules match then the products are applicable.
-      for (let pindex = 0; pindex < productList.length; pindex++) {
-        const rules = productList[pindex].rules;
-        let rulesCounter = 0;
-        // console.log(rules.length);
-        // console.log(rulesCounter);
-        for (let index = 0; index < rules.length; index++) {
-          let eachRule = rules[index];
-          let fieldName = eachRule.ruleOperandField;
-          let fieldValue = eachRule.ruleValue;
+        // loop through the products and the rules under each product and check against the customer values.
+        //if all rules match then the products are applicable.
+        for (let pindex = 0; pindex < productList.length; pindex++) {
+          const rules = productList[pindex].rules;
+          let rulesCounter = 0;
+          // console.log(rules.length);
+          // console.log(rulesCounter);
+          for (let index = 0; index < rules.length; index++) {
+            let eachRule = rules[index];
+            let fieldName = eachRule.ruleOperandField;
+            let fieldValue = eachRule.ruleValue;
 
-          if (eachRule.ruleOperator === "equals") {
-            if (fieldName === "customerFirstName") {
-              if (customerFirstName === fieldValue) {
-                rulesCounter++;
+            if (eachRule.ruleOperator === "equals") {
+              if (fieldName === "customerFirstName") {
+                if (customerFirstName === fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerLastName") {
+                if (customerLastName === fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerEmail") {
+                //No Rule defined
+              } else if (fieldName === "customerGender") {
+                if (customerGender === fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerOccupation") {
+                if (customerOccupation === fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerSalary") {
+                if (customerSalary === fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerResidentStatus") {
+                if (customerResidentStatus === fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerAge") {
+                if (customerAge === fieldValue) {
+                  rulesCounter++;
+                }
+              } else {
+                throw new GraphQLError("Incorrect rule field name", {
+                  extensions: {
+                    code: "BAD_USER_INPUT",
+                  },
+                });
               }
-            } else if (fieldName === "customerLastName") {
-              if (customerLastName === fieldValue) {
-                rulesCounter++;
+            } else if (eachRule.ruleOperator === "greater") {
+              //write logic for that check
+              if (fieldName === "customerFirstName") {
+                //logic
+              } else if (fieldName === "customerLastName") {
+                //logic
+              } else if (fieldName === "customerEmail") {
+                //logic
+              } else if (fieldName === "customerGender") {
+                //logic
+              } else if (fieldName === "customerOccupation") {
+                //logic
+              } else if (fieldName === "customerResidentStatus") {
+                //logic
+              } else if (fieldName === "customerSalary") {
+                if (customerSalary > fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerAge") {
+                if (customerAge > fieldValue) {
+                  rulesCounter++;
+                }
+              } else {
+                throw new GraphQLError(
+                  "Incorrect rule field name or operator",
+                  {
+                    extensions: {
+                      code: "BAD_USER_INPUT",
+                    },
+                  }
+                );
               }
-            } else if (fieldName === "customerEmail") {
-              //No Rule defined
-            } else if (fieldName === "customerGender") {
-              if (customerGender === fieldValue) {
-                rulesCounter++;
+            } else if (eachRule.ruleOperator === "less") {
+              //write logic for that check
+              if (fieldName === "customerFirstName") {
+                // logic
+              } else if (fieldName === "customerLastName") {
+                //logic
+              } else if (fieldName === "customerEmail") {
+                //logic
+              } else if (fieldName === "customerGender") {
+                //logic
+              } else if (fieldName === "customerOccupation") {
+                //logic
+              } else if (fieldName === "customerResidentStatus") {
+                //logic
+              } else if (fieldName === "customerSalary") {
+                if (customerSalary < fieldValue) {
+                  rulesCounter++;
+                }
+              } else if (fieldName === "customerAge") {
+                if (customerAge < fieldValue) {
+                  rulesCounter++;
+                }
+              } else {
+                throw new GraphQLError(
+                  "Incorrect rule field name or operator",
+                  {
+                    extensions: {
+                      code: "BAD_USER_INPUT",
+                    },
+                  }
+                );
               }
-            } else if (fieldName === "customerOccupation") {
-              if (customerOccupation === fieldValue) {
-                rulesCounter++;
-              }
-            } else if (fieldName === "customerSalary") {
-              if (customerSalary === fieldValue) {
-                rulesCounter++;
-              }
-            } else if (fieldName === "customerResidentStatus") {
-              if (customerResidentStatus === fieldValue) {
-                rulesCounter++;
-              }
-            } else if (fieldName === "customerAge") {
-              if (customerAge === fieldValue) {
-                rulesCounter++;
-              }
-            } else {
-              throw new GraphQLError("Incorrect rule field name", {
-                extensions: {
-                  code: "BAD_USER_INPUT",
-                },
-              });
             }
-          } else if (eachRule.ruleOperator === "greater") {
-            //write logic for that check
-            if (fieldName === "customerFirstName") {
-              //logic
-            } else if (fieldName === "customerLastName") {
-              //logic
-            } else if (fieldName === "customerEmail") {
-              //logic
-            } else if (fieldName === "customerGender") {
-              //logic
-            } else if (fieldName === "customerOccupation") {
-              //logic
-            } else if (fieldName === "customerResidentStatus") {
-              //logic
-            } else if (fieldName === "customerSalary") {
-              if (customerSalary > fieldValue) {
-                rulesCounter++;
-              }
-            } else if (fieldName === "customerAge") {
-              if (customerAge > fieldValue) {
-                rulesCounter++;
-              }
-            } else {
-              throw new GraphQLError("Incorrect rule field name or operator", {
-                extensions: {
-                  code: "BAD_USER_INPUT",
-                },
-              });
-            }
-          } else if (eachRule.ruleOperator === "less") {
-            //write logic for that check
-            if (fieldName === "customerFirstName") {
-              // logic
-            } else if (fieldName === "customerLastName") {
-              //logic
-            } else if (fieldName === "customerEmail") {
-              //logic
-            } else if (fieldName === "customerGender") {
-              //logic
-            } else if (fieldName === "customerOccupation") {
-              //logic
-            } else if (fieldName === "customerResidentStatus") {
-              //logic
-            } else if (fieldName === "customerSalary") {
-              if (customerSalary < fieldValue) {
-                rulesCounter++;
-              }
-            } else if (fieldName === "customerAge") {
-              if (customerAge < fieldValue) {
-                rulesCounter++;
-              }
-            } else {
-              throw new GraphQLError("Incorrect rule field name or operator", {
-                extensions: {
-                  code: "BAD_USER_INPUT",
-                },
-              });
-            }
-          }
 
-          if (rulesCounter === rules.length) {
-            applicableProducts.push(productList[pindex]);
+            if (rulesCounter === rules.length) {
+              applicableProducts.push(productList[pindex]);
+            }
           }
         }
-      }
 
-      console.log("Applicable Products Length : ", applicableProducts.length);
+        console.log("Applicable Products Length : ", applicableProducts.length);
 
-      //based on the rules, products must be added and iscustomereligible
+        //based on the rules, products must be added and iscustomereligible
 
-      if (applicableProducts.length !== 0) {
-        isCustomerEligible = "true";
-        products = [...applicableProducts];
-      }
+        if (applicableProducts.length !== 0) {
+          isCustomerEligible = "true";
+          products = [...applicableProducts];
+        }
 
-      const customer = await Customer.create({
-        ...args,
-        isCustomerEligible,
-        products: [...products],
-        // createdBy: context.user._id,
-      });
+        const customer = await Customer.create({
+          ...args,
+          isCustomerEligible,
+          products: [...products],
+          createdBy: context.user._id,
+        });
 
-      const newAppUser = await AppUser.create({
-        appUserFirstName: customer.customerFirstName,
-        appUserLastName: customer.customerLastName,
-        appUserEmail: customer.customerEmail,
-        appUserRole: "customer",
-        appUserPassword: generatedPassword,
-      });
+        const newAppUser = await AppUser.create({
+          appUserFirstName: customer.customerFirstName,
+          appUserLastName: customer.customerLastName,
+          appUserEmail: customer.customerEmail,
+          appUserRole: "customer",
+          appUserPassword: generatedPassword,
+        });
 
-      const emailSubject = "Welcome to Our Banking System";
-      const emailMessage = `We have offered ${applicableProducts.length} products to you. To view the products offered, kindly login in to the website URL: http://localhost:3000.
+        const emailSubject = "Welcome to Our Banking System";
+        const emailMessage = `We have offered ${applicableProducts.length} products to you. To view the products offered, kindly login in to the website URL: http://localhost:3000.
         Please use email id as your username and password in the following format (firstnameyearOfbirth)(Eg: john1983)`;
 
-      // sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
+        // sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
 
-      return customer;
-      // }
-      // throw new GraphQLError("Could not authenticate user.", {
-      //   extensions: {
-      //     code: "UNAUTHENTICATED",
-      //   },
-      // });
+        return customer;
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
     addInterest: async (parent, args, context) => {
       if (context.user) {
