@@ -158,8 +158,9 @@ export const ADD_CUSTOMER = gql`
 `;
 
 export const ADD_INTEREST = gql`
-  mutation addInterest($products: [ID]!, $isCustomerInterested: Boolean) {
+  mutation addInterest($products: [ID]!) {
     addInterest(products: $products) {
+      _id
       isCustomerInterested
       products {
         _id

@@ -9,6 +9,7 @@ import Login from "./pages/Login.jsx";
 import AdminHome from "./pages/AdminHome.jsx";
 import AgentHome from "./pages/AgentHome.jsx";
 import CustomerHome from "./pages/CustomerHome.jsx";
+import CustomerAddInterest from "./pages/CustomerAddInterest.jsx";
 
 // All the accessible routes, and which components respond to which URL are defined
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/customerhome",
         element: <CustomerHome />,
+      },
+      {
+        path: "/addinterest",
+        element: <CustomerAddInterest />,
       },
     ],
   },

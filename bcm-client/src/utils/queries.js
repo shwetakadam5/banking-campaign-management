@@ -153,16 +153,16 @@ export const QUERY_CUSTOMER_PRODUCTS = gql`
       products {
         _id
         productName
-        rules {
-          _id
-          ruleName
-        }
+        productType
+        productDescription
       }
       interestedProducts {
         isCustomerInterested
         products {
           _id
           productName
+          productType
+          productDescription
         }
       }
       createdBy {
@@ -172,6 +172,21 @@ export const QUERY_CUSTOMER_PRODUCTS = gql`
         appUserEmail
         appUserRole
         appUserFullName
+      }
+    }
+  }
+`;
+
+export const QUERY_CUSTOMER_INTEREST = gql`
+  query getCustomerInterest($id: ID!) {
+    customerInterest(_id: $id) {
+      _id
+      isCustomerInterested
+      products {
+        _id
+        productName
+        productType
+        productDescription
       }
     }
   }

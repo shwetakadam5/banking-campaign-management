@@ -20,6 +20,15 @@ const resolvers = {
     appUsers: async () => {
       return await AppUser.find();
     },
+    customerInterest: async (parent, { _id }) => {
+      const customerInterest = await CustomerInterest.findById(_id).populate(
+        "products"
+      );
+      if (!customerInterest) {
+        throw new GraphQLError("No interested products");
+      }
+      return customerInterest;
+    },
     customers: async () => {
       const customers = await Customer.find({})
         .populate("products")
@@ -420,17 +429,11 @@ const resolvers = {
     },
     addInterest: async (parent, args, context) => {
       if (context.user) {
-        const customerInterestedProducts = await Customer.findById(
-          context.user._id
-        )
+        const customerInterestedProducts = await Customer.findOne({
+          customerEmail: context.user.appUserEmail,
+        })
           .select("interestedProducts")
           .select("products");
-
-        // const customerInterestedProducts = await Customer.findById(
-        //   "66a39c27d9e8edaed21653df"
-        // )
-        //   .select("interestedProducts")
-        //   .select("products");
 
         for (let index = 0; index < args.products.length; index++) {
           const argElement = args.products[index];
@@ -462,12 +465,12 @@ const resolvers = {
             await CustomerInterest.findOneAndDelete({
               _id: customerInterestedProducts.interestedProducts,
             });
-            await Customer.findByIdAndUpdate(context.user._id, {
-              $set: { interestedProducts: null },
-            });
-            // await Customer.findByIdAndUpdate("66a39c27d9e8edaed21653df", {
-            //   $set: { interestedProducts: null },
-            // });
+            await Customer.findOneAndUpdate(
+              { customerEmail: context.user.appUserEmail },
+              {
+                $set: { interestedProducts: null },
+              }
+            );
           } else {
             interestedProducts = await CustomerInterest.findOneAndUpdate(
               { _id: customerInterestedProducts.interestedProducts },
@@ -481,14 +484,12 @@ const resolvers = {
           }
         }
 
-        await Customer.findByIdAndUpdate(context.user._id, {
-          $set: { interestedProducts: interestedProducts },
-        });
-
-        //  // Added for unittesting
-        //   await Customer.findByIdAndUpdate("66a39c27d9e8edaed21653df", {
-        //     $set: { interestedProducts: interestedProducts },
-        //   });
+        await Customer.findOneAndUpdate(
+          { customerEmail: context.user.appUserEmail },
+          {
+            $set: { interestedProducts: interestedProducts },
+          }
+        );
 
         return interestedProducts;
       }

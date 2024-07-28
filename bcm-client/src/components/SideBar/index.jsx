@@ -1,6 +1,6 @@
 import { List, ListIcon, ListItem } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { ViewIcon } from "@chakra-ui/icons";
+import { EditIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   jwtlogout,
   isAuthUserloggedIn,
@@ -22,10 +22,9 @@ const SideBar = () => {
           </NavLink>
         </ListItem>
         <ListItem>
-          <NavLink to="">Link 2</NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink to="">Link 3</NavLink>
+          <NavLink to="/addinterest">
+            <ListIcon as={EditIcon} color="blue.800"></ListIcon> Add Interest
+          </NavLink>
         </ListItem>
       </List>
     );

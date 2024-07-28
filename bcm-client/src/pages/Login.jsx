@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 //Application specific imports
 import { LOGIN } from "../utils/mutations";
 import { jwtlogin } from "../utils/jwtAuthentication";
+import { SET_USER } from "../utils/actions";
 
 const Login = () => {
   const [state, dispatch] = useGlobalAppContext();
@@ -34,7 +35,7 @@ const Login = () => {
 
     // set the user details on the global context
     dispatch({
-      type: "SET_USER",
+      type: SET_USER,
       payload: userLoginResponse.data.login.appUserDetails,
     });
 

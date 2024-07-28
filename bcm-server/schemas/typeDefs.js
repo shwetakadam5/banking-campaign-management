@@ -51,8 +51,10 @@ type EmailResponse {
   }
 
 type CustomerInterest {
+    _id: ID
     isCustomerInterested: Boolean
     products : [Product]
+    
   }
 
 type Query {
@@ -63,6 +65,7 @@ type Query {
     product(_id: ID!): Product
     rule(_id: ID!): Rule
     customersProducts: Customer
+    customerInterest(_id: ID!) : CustomerInterest
   }
 
 type Mutation {
