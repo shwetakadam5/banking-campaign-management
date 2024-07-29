@@ -46,7 +46,7 @@ const EditProduct = () => {
     productName: "",
     productType: "",
     productDescription: "",
-    rules: [""],
+    rules: [],
   });
 
   const [updateFormErrors, setUpdateFormErrors] = useState({
@@ -56,18 +56,15 @@ const EditProduct = () => {
     // rules: [""],
   });
 
-  // Use `useParams()` to retrieve value of the route parameter `:productId`
+  // `useParams()` to retrieve value of the route parameter `:productId`
   const { productId } = useParams();
 
   console.log(productId);
 
   const { loading: productLoading, data } = useQuery(QUERY_PRODUCT_BY_ID, {
-    // pass URL parameter
+    // passing the URL parameter
     variables: { id: productId },
   });
-
-  console.log(data);
-  const product = data?.product || [];
 
   const [updateProduct, { error }] = useMutation(UPDATE_PRODUCT, {
     refetchQueries: [QUERY_PRODUCTS, "getProducts", QUERY_RULES, "getRules"],
@@ -78,14 +75,30 @@ const EditProduct = () => {
   const rules = allRules?.rules || [];
 
   useEffect(() => {
-    console.log("inside useEffect");
-    setUpdateFormState({
-      ...updateFormState,
+    const product = data?.product;
+
+    if (!product) return;
+    console.log("inside useEffect", product);
+
+    setUpdateFormState((state) => ({
+      ...state,
       productName: product.productName,
       productType: product.productType,
       productDescription: product.productDescription,
-      rules: product.rules,
-    });
+      rules: product.rules.map((element) => {
+        return { value: element._id, label: element.ruleName };
+      }),
+    }));
+
+    // setUpdateFormState({
+
+    // });
+
+    // setSelected(
+    //   product.rules.map((element) => {
+    //     return { value: element._id, label: element.ruleName };
+    //   })
+    // );
 
     console.log(product.rules);
   }, [data]);
@@ -109,7 +122,7 @@ const EditProduct = () => {
           productName: updateFormState.productName,
           productType: updateFormState.productType,
           productDescription: updateFormState.productDescription,
-          // rules: updateFormState.rules,
+          rules: updateFormState.rules.map((rule) => rule.value),
         },
       });
       console.log(productUpdated);
@@ -262,8 +275,14 @@ const EditProduct = () => {
                       label: rule.ruleName,
                     }))
                   }
-                  onChange={setSelected}
-                  value={selected}
+                  onChange={(changeValue) => {
+                    console.log(changeValue);
+                    setUpdateFormState((state) => ({
+                      ...state,
+                      rules: changeValue,
+                    }));
+                  }}
+                  value={updateFormState.rules}
                 ></MultiSelect>
               </FormControl>
 
