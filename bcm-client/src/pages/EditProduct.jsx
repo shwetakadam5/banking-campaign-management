@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import { MultiSelect } from "react-multi-select-component";
 
@@ -26,82 +26,117 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import { ADD_PRODUCT } from "../utils/mutations";
-import { QUERY_PRODUCTS, QUERY_RULES } from "../utils/queries";
+import { ADD_PRODUCT, UPDATE_PRODUCT } from "../utils/mutations";
+import {
+  QUERY_PRODUCT_BY_ID,
+  QUERY_PRODUCTS,
+  QUERY_RULES,
+} from "../utils/queries";
 
-const AddProduct = () => {
+const EditProduct = () => {
   const navigate = useNavigate();
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
-  const [selected, setSelected] = useState([]);
 
-  console.log(selected);
+  const [selected, setSelected] = useState([
+    { value: "66a713a909d6cc5f37c1c353", label: "ageRule1" },
+  ]);
 
-  const [addProductFormState, setAddProductFormState] = useState({
+  const [updateFormState, setUpdateFormState] = useState({
     productName: "",
     productType: "",
     productDescription: "",
     rules: [""],
   });
 
-  const [addProductFormErrors, setAddProductFormErrors] = useState({
+  const [updateFormErrors, setUpdateFormErrors] = useState({
     productName: "",
     productType: "",
     productDescription: "",
+    // rules: [""],
   });
 
-  const [addProduct, { error }] = useMutation(ADD_PRODUCT, {
+  // Use `useParams()` to retrieve value of the route parameter `:productId`
+  const { productId } = useParams();
+
+  console.log(productId);
+
+  const { loading: productLoading, data } = useQuery(QUERY_PRODUCT_BY_ID, {
+    // pass URL parameter
+    variables: { id: productId },
+  });
+
+  console.log(data);
+  const product = data?.product || [];
+
+  const [updateProduct, { error }] = useMutation(UPDATE_PRODUCT, {
     refetchQueries: [QUERY_PRODUCTS, "getProducts", QUERY_RULES, "getRules"],
   });
 
-  const { loading, data: allRules } = useQuery(QUERY_RULES);
+  const { loading: rulesLoading, data: allRules } = useQuery(QUERY_RULES);
 
   const rules = allRules?.rules || [];
-  const handleAddProductFormSubmit = async (event) => {
+
+  useEffect(() => {
+    console.log("inside useEffect");
+    setUpdateFormState({
+      ...updateFormState,
+      productName: product.productName,
+      productType: product.productType,
+      productDescription: product.productDescription,
+      rules: product.rules,
+    });
+
+    console.log(product.rules);
+  }, [data]);
+
+  console.log(updateFormState);
+
+  const handleEditProductFormSubmit = async (event) => {
     event.preventDefault();
 
     console.log("in submit");
-    console.log(Object.values(addProductFormState));
-    console.log(Object.values(addProductFormErrors));
-    const isFormValid = Object.values(addProductFormErrors).every(
+    console.log(Object.values(updateFormState));
+    console.log(Object.values(updateFormErrors));
+    const isFormValid = Object.values(updateFormErrors).every(
       (error) => error === ""
     );
     if (isFormValid) {
       console.log("Successfully Submit");
-      const productCreated = await addProduct({
+      const productUpdated = await updateProduct({
         variables: {
-          productName: addProductFormState.productName,
-          productType: addProductFormState.productType,
-          productDescription: addProductFormState.productDescription,
-          rules: selected.map((ruleId) => ruleId.value),
+          productId: productId,
+          productName: updateFormState.productName,
+          productType: updateFormState.productType,
+          productDescription: updateFormState.productDescription,
+          // rules: updateFormState.rules,
         },
       });
-      console.log(productCreated);
+      console.log(productUpdated);
       navigate("/viewproducts");
     } else {
       console.log("Form contains validation errors.");
-      navigate("/createproduct");
     }
   };
-  const handleAddProductFormChange = (event) => {
+  const handleEditProductFormChange = (event) => {
     const { name, value } = event.target;
     console.log(name);
     console.log(value);
 
     if (name === "productName" && value.trim().length < 3) {
-      setAddProductFormErrors((addProductFormErrors) => ({
-        ...addProductFormErrors,
+      setUpdateFormErrors((updateFormErrors) => ({
+        ...updateFormErrors,
         productName: "Product Name must be at least 3 characters long.",
       }));
     } else if (name === "productDescription" && value.trim().length < 3) {
-      setAddProductFormErrors((addProductFormErrors) => ({
-        ...addProductFormErrors,
+      setUpdateFormErrors((updateFormErrors) => ({
+        ...updateFormErrors,
         productDescription:
           "Product Description must be at least 3 characters long.",
       }));
     } else {
-      setAddProductFormErrors((addProductFormErrors) => ({
-        ...addProductFormErrors,
+      setUpdateFormErrors((updateFormErrors) => ({
+        ...updateFormErrors,
         [name]: "", // Reset error message,
       }));
     }
@@ -111,20 +146,19 @@ const AddProduct = () => {
       name === "productType" ||
       name === "productDescription"
     ) {
-      setAddProductFormState({ ...addProductFormState, [name]: value });
+      setUpdateFormState({ ...updateFormState, [name]: value });
     }
-    // else if (event.target.selectedOptions) {
+    //  else if (event.target.selectedOptions) {
     //   const options = [...event.target.selectedOptions];
     //   const values = options.map((option) => option.value);
 
     //   console.log(values);
-    //   setAddProductFormState({
-    //     ...addProductFormState,
+    //   setUpdateFormState({
+    //     ...updateFormState,
     //     rules: [...values],
     //   });
     // }
   };
-
   return (
     <>
       <Grid templateColumns="repeat(6, 1fr)" bg="blue.50">
@@ -139,10 +173,10 @@ const AddProduct = () => {
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
           <Box maxW="480px">
-            <Heading as="h6"> Add Product </Heading>
+            <Heading as="h6"> Edit Product </Heading>
             {error && <Text color={"red.500"}>{"Something went wrong"}</Text>}
 
-            <form onSubmit={handleAddProductFormSubmit}>
+            <form onSubmit={handleEditProductFormSubmit}>
               <ToastContainer />
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="productName">Product Name</FormLabel>
@@ -151,29 +185,19 @@ const AddProduct = () => {
                   name="productName"
                   type="input"
                   id="productName"
-                  onChange={handleAddProductFormChange}
+                  value={updateFormState.productName}
+                  onChange={handleEditProductFormChange}
                 />
-                {addProductFormErrors.productName && (
-                  <FormHelperText color={"red.500"}>
-                    {addProductFormErrors.productName}
-                  </FormHelperText>
-                )}
               </FormControl>
 
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="productType">Product Type</FormLabel>
-                {/* <Input
-                  placeholder="productType"
-                  name="productType"
-                  type="input"
-                  id="productType"
-                  onChange={handleAddProductFormChange}
-                /> */}
 
                 <Select
                   placeholder="Select product type"
-                  onChange={handleAddProductFormChange}
+                  onChange={handleEditProductFormChange}
                   name="productType"
+                  value={updateFormState.productType}
                 >
                   <option name="productType" value="TXNACCT">
                     Transaction Account
@@ -202,13 +226,9 @@ const AddProduct = () => {
                   name="productDescription"
                   type="input"
                   id="productDescription"
-                  onChange={handleAddProductFormChange}
+                  value={updateFormState.productDescription}
+                  onChange={handleEditProductFormChange}
                 />
-                {addProductFormErrors.productDescription && (
-                  <FormHelperText color={"red.500"}>
-                    {addProductFormErrors.productDescription}
-                  </FormHelperText>
-                )}
               </FormControl>
 
               {/* <FormControl isRequired mb="15px">
@@ -216,34 +236,18 @@ const AddProduct = () => {
                 <Select
                   variant="outline"
                   placeholder="Select operator"
-                  onChange={handleAddProductFormChange}
+                  // onChange={handleEditProductFormChange}
                   name="rules"
                   multiple={true}
+                  values={editProductFormState.rules.map((rule) => rule._id)}
                 >
-                  {rules &&
-                    rules.map((rule) => (
+                  {editProductFormState.rules &&
+                    editProductFormState.rules.map((rule) => (
                       <option key={rule._id} value={rule._id}>
                         {rule.ruleName}
                       </option>
                     ))}
                 </Select>
-              </FormControl> */}
-              {/* <FormControl isRequired mb="15px">
-                <FormLabel htmlFor="ruleName">Rule Value</FormLabel>
-                <select
-                  id="my-select-1"
-                  name="rulesTry"
-                  multiple={true}
-                  value={rules}
-                  onChange={handleAddProductFormChange}
-                >
-                  {rules &&
-                    rules.map((rule) => (
-                      {value :{rule._id}
-                        label : {rule.ruleName}
-}
-                    ))}
-                </select>
               </FormControl> */}
 
               <FormControl mb="15px">
@@ -262,8 +266,9 @@ const AddProduct = () => {
                   value={selected}
                 ></MultiSelect>
               </FormControl>
+
               <FormControl mb="15px">
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Update</Button>
               </FormControl>
             </form>
           </Box>
@@ -273,4 +278,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

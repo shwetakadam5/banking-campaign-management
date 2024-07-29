@@ -74,7 +74,8 @@ const ViewProducts = () => {
                   <Th color={"aliceblue"}>Product Type</Th>
                   <Th color={"aliceblue"}>Product Description</Th>
                   <Th color={"aliceblue"}># Rules</Th>
-                  <Th color={"aliceblue"}>Rule names</Th>
+                  <Th color={"aliceblue"}>Rules</Th>
+                  <Th color={"aliceblue"}>Actions</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -86,6 +87,15 @@ const ViewProducts = () => {
                       <Td>{product.productDescription} </Td>
                       <Td>{product.applicableRulesCount}</Td>
                       <Td>{product.allRuleNames}</Td>
+                      <Td>
+                        <Link to={`/editproduct/${product._id}`}>
+                          {" "}
+                          <Button
+                            variant={"ghost"}
+                            rightIcon={<EditIcon />}
+                          ></Button>
+                        </Link>
+                      </Td>
                     </Tr>
                   ))}
               </Tbody>
@@ -96,6 +106,7 @@ const ViewProducts = () => {
                   <Th> </Th>
                   <Th> </Th>
                   <Th> </Th>
+                  <Th></Th>
                 </Tr>
               </Tfoot>
             </Table>

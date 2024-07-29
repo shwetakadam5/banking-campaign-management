@@ -16,6 +16,7 @@ export const GlobalAppProvider = (props) => {
     appUserRole: "",
     appUserFullName: "",
   };
+  
 
   // Set up our useReducer hook. Accepts two arguments - the reducer and an initial state
   const [state, dispatch] = useReducer(reducer, {
