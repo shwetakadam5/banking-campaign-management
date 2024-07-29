@@ -3,11 +3,12 @@ import { useQuery } from "@apollo/client";
 
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
-
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { useEffect } from "react";
 import SideBar from "../components/SideBar";
+import { Link } from "react-router-dom";
 
 import { QUERY_PRODUCTS } from "../utils/queries";
 StepSeparator;
@@ -22,30 +23,18 @@ import {
   Thead,
   Tbody,
   TableContainer,
-  SimpleGrid,
-  Text,
-  Heading,
-  HStack,
   Button,
-  Divider,
-  Checkbox,
-  Spacer,
   Box,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Flex,
   TableCaption,
   StepSeparator,
 } from "@chakra-ui/react";
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
+
+import { SmallAddIcon, EditIcon } from "@chakra-ui/icons";
 
 const ViewProducts = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
-  const { productName } = state;
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   const products = data?.products || [];
@@ -66,6 +55,11 @@ const ViewProducts = () => {
           <SideBar />
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
+          <Box>
+            <Button rightIcon={<SmallAddIcon />} colorScheme="blue">
+              <Link to="/createproduct">Add</Link>
+            </Button>
+          </Box>
           <TableContainer>
             <Table
               size="sm"
@@ -88,8 +82,8 @@ const ViewProducts = () => {
                   products.map((product) => (
                     <Tr key={product._id}>
                       <Td>{product.productName}</Td>
-                      <Td>{product.productName} </Td>
-                      <Td>{product.productName} </Td>
+                      <Td>{product.productType} </Td>
+                      <Td>{product.productDescription} </Td>
                       <Td>{product.applicableRulesCount}</Td>
                       <Td>{product.allRuleNames}</Td>
                     </Tr>

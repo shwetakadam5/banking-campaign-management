@@ -79,28 +79,28 @@ db.once("open", async () => {
 
     const product1 = await Product.create({
       productName: "Product1",
-      productType: "productType",
+      productType: "txnacct",
       productDescription: "DummyProduct",
       rules: [rules[0]._id, rules[1]._id, rules[2]._id, rules[3]._id],
     });
 
     const product2 = await Product.create({
       productName: "Product2",
-      productType: "productType",
+      productType: "SAVACCT",
       productDescription: "DummyProduct",
       rules: [rules[2]._id, rules[3]._id],
     });
 
     const product3 = await Product.create({
       productName: "Product3",
-      productType: "productType",
+      productType: "SAVACCT",
       productDescription: "DummyProduct",
       rules: [rules[0]._id],
     });
 
     const product4 = await Product.create({
       productName: "Product4",
-      productType: "productType",
+      productType: "PLOAN",
       productDescription: "DummyProduct",
       rules: [rules[4]._id],
     });

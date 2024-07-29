@@ -1,5 +1,9 @@
 const { Schema, model } = require("mongoose");
 
+let validProductTypes = {
+  values: ["TXNACCT", "SAVACCT", "CCARD", "HLOAN", "PLOAN"],
+  message: "Please provide valid product type.",
+};
 const productSchema = new Schema(
   {
     productName: {
@@ -9,6 +13,10 @@ const productSchema = new Schema(
     },
     productType: {
       type: String,
+      required: [true, "Product type is required."],
+      uppercase: true,
+      trim: true,
+      enum: validProductTypes,
     },
     productDescription: {
       type: String,
