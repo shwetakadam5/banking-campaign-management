@@ -17,12 +17,13 @@ const SideBar = () => {
         <ListItem>
           <NavLink to="/customerhome">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
-            Customer Dashboard
+            Products Offered
           </NavLink>
         </ListItem>
         <ListItem>
           <NavLink to="/addinterest">
-            <ListIcon as={EditIcon} color="blue.800"></ListIcon> Add Interest
+            <ListIcon as={EditIcon} color="blue.800"></ListIcon> Choose Product
+            Interested
           </NavLink>
         </ListItem>
       </List>
@@ -37,7 +38,7 @@ const SideBar = () => {
           {" "}
           <NavLink to="/agenthome">
             <ListIcon as={EditIcon} color="blue.800"></ListIcon>
-            Add Customer
+            Create Customer
           </NavLink>
         </ListItem>
       </List>
@@ -51,19 +52,19 @@ const SideBar = () => {
         <ListItem>
           <NavLink to="/adminhome">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
-            View All Customers
+            Customers
           </NavLink>
         </ListItem>
         <ListItem>
           <NavLink to="/viewrules">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
-            View All Rules
+            Rules
           </NavLink>
         </ListItem>
         <ListItem>
           <NavLink to="/viewproducts">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
-            View All Products
+            Products
           </NavLink>
         </ListItem>
       </List>
