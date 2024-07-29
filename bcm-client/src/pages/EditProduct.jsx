@@ -89,17 +89,6 @@ const EditProduct = () => {
         return { value: element._id, label: element.ruleName };
       }),
     }));
-
-    // setUpdateFormState({
-
-    // });
-
-    // setSelected(
-    //   product.rules.map((element) => {
-    //     return { value: element._id, label: element.ruleName };
-    //   })
-    // );
-
     console.log(product.rules);
   }, [data]);
 

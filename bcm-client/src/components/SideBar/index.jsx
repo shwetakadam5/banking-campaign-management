@@ -17,13 +17,7 @@ const SideBar = () => {
         <ListItem>
           <NavLink to="/customerhome">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
-            Products Offered
-          </NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink to="/addinterest">
-            <ListIcon as={EditIcon} color="blue.800"></ListIcon> Choose Product
-            Interested
+            Products
           </NavLink>
         </ListItem>
       </List>
