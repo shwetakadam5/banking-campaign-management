@@ -176,11 +176,11 @@ My selection is successfully captured and I can view my selection at a later poi
 
 #### 9. **_banking-campaign-management :Agent : Add Customer:_**
 
-![Image Unavailable](./bcm-client/src/assets/images/AgentAddCustomer.jpeg)
+![Image Unavailable](./bcm-client/src/assets/images/AgentAddCustomerFormValidations.jpeg)
 
 #### 10. **_banking-campaign-management :Agent : Add Customer FormValidations:_**
 
-![Image Unavailable](./bcm-client/src/assets/images/AgentAddCustomerFormValidations.jpeg)
+![Image Unavailable](./bcm-client/src/assets/images/AgentAddCustomer.jpeg)
 
 #### 11. **_banking-campaign-management :Agent : View Customers:_**
 
