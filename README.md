@@ -196,7 +196,7 @@ My selection is successfully captured and I can view my selection at a later poi
 
 #### 14. **_banking-campaign-management :Customer: Submits interest in product:_**
 
-![Image Unavailable](./bcm-client/src/assets/images/CustomerSubmitsInterest.jpeg.jpeg)
+![Image Unavailable](./bcm-client/src/assets/images/CustomerSubmitsInterest.jpeg)
 
 ## Credits and Helpful Resources
 
