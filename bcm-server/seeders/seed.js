@@ -17,27 +17,35 @@ db.once("open", async () => {
     await cleanDB("CustomerInterest", "customerinterests");
 
     const appUser1 = await AppUser.create({
-      appUserFirstName: "Shiv",
+      appUserFirstName: "Admin",
       appUserLastName: "Zutshi",
-      appUserEmail: "shivzutshi@password.com",
+      appUserEmail: "admin@password.com",
       appUserRole: "admin",
-      appUserPassword: "password123",
+      appUserPassword: "password",
     });
 
     const appUser2 = await AppUser.create({
-      appUserFirstName: "Shweta",
+      appUserFirstName: "Agent",
       appUserLastName: "Kadam",
-      appUserEmail: "sk5@pwd.com",
+      appUserEmail: "agentkadam@password.com",
       appUserRole: "agent",
-      appUserPassword: "password123",
+      appUserPassword: "password",
     });
 
     const appUser3 = await AppUser.create({
       appUserFirstName: "Shulin",
-      appUserLastName: "Z",
-      appUserEmail: "shulin@password.com",
+      appUserLastName: "C",
+      appUserEmail: "customer@password.com",
       appUserRole: "customer",
-      appUserPassword: "password123",
+      appUserPassword: "password",
+    });
+
+    const appUser4 = await AppUser.create({
+      appUserFirstName: "Agent",
+      appUserLastName: "Doe",
+      appUserEmail: "agentdoe@password.com",
+      appUserRole: "agent",
+      appUserPassword: "password",
     });
 
     console.log("AppUsers seeded");
@@ -80,28 +88,28 @@ db.once("open", async () => {
     const product1 = await Product.create({
       productName: "Product1",
       productType: "txnacct",
-      productDescription: "DummyProduct",
+      productDescription: "Transaction Account ",
       rules: [rules[0]._id, rules[1]._id, rules[2]._id, rules[3]._id],
     });
 
     const product2 = await Product.create({
       productName: "Product2",
       productType: "SAVACCT",
-      productDescription: "DummyProduct",
+      productDescription: "Savings Account",
       rules: [rules[2]._id, rules[3]._id],
     });
 
     const product3 = await Product.create({
       productName: "Product3",
       productType: "SAVACCT",
-      productDescription: "DummyProduct",
+      productDescription: "Super Saver Account",
       rules: [rules[0]._id],
     });
 
     const product4 = await Product.create({
       productName: "Product4",
       productType: "PLOAN",
-      productDescription: "DummyProduct",
+      productDescription: "Personal Loan",
       rules: [rules[4]._id],
     });
 
@@ -110,7 +118,7 @@ db.once("open", async () => {
     await Customer.create({
       customerFirstName: "CustomerFN",
       customerLastName: "CustomerLN",
-      customerEmail: "abcd@abc.com",
+      customerEmail: "cust1@abc.com",
       customerGender: "male",
       customerOccuptation: "Occuptaion",
       customerSalary: 100,
@@ -124,26 +132,26 @@ db.once("open", async () => {
     await Customer.create({
       customerFirstName: "Customer2FN",
       customerLastName: "Customer2LN",
-      customerEmail: "abcd2@abc.com",
+      customerEmail: "cust2@abc.com",
       customerGender: "female",
       customerOccuptation: "Occuptaion",
       customerSalary: 1000,
       customerResidentStatus: "PR",
-      customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      customerDateOfBirth: "1993-05-05T09:45:00.000Z",
       isCustomerEligible: "true",
       products: [product2._id],
       createdBy: appUser2._id,
     });
 
     await Customer.create({
-      customerFirstName: "Customer3FN",
-      customerLastName: "Customer3LN",
-      customerEmail: "shulin@password.com",
+      customerFirstName: "Shulin",
+      customerLastName: "C",
+      customerEmail: "customer@password.com",
       customerGender: "male",
       customerOccuptation: "Occuptaion",
       customerSalary: 1000,
       customerResidentStatus: "PR",
-      customerDateOfBirth: "1983-05-05T09:45:00.000Z",
+      customerDateOfBirth: "1983-06-12T09:45:00.000Z",
       isCustomerEligible: "true",
       products: [product1._id, product2._id, product3._id],
       createdBy: appUser2._id,

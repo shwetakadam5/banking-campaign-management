@@ -15,8 +15,7 @@ export const isAuthUserloggedIn = () => {
 
 export const isTokenExpired = (token) => {
   const decoded = jwtDecode(token);
-  console.log(decoded.exp);
-  console.log(Date.now());
+
   if (decoded.exp * 1000 < Date.now()) {
     localStorage.removeItem("id_token");
     return true;

@@ -217,7 +217,7 @@ export const QUERY_CUSTOMER_INTEREST = gql`
 
 export const QUERY_CUSTOMERS_BY_AGENT = gql`
   query getCustomersByAgent {
-    customers {
+    customersByAgent {
       _id
       customerFirstName
       customerLastName
