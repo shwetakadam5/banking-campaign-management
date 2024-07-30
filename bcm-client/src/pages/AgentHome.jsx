@@ -4,10 +4,9 @@ import { useMutation } from "@apollo/client";
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 
 import SideBar from "../components/SideBar";
 
@@ -16,7 +15,6 @@ import {
   Button,
   FormControl,
   FormHelperText,
-  Text,
   FormLabel,
   Grid,
   GridItem,
@@ -25,6 +23,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { ADD_CUSTOMER } from "../utils/mutations";
+import { QUERY_CUSTOMERS_BY_AGENT } from "../utils/queries";
 
 const AgentHome = () => {
   const navigate = useNavigate();
@@ -55,19 +54,16 @@ const AgentHome = () => {
     customerDateOfBirth: "",
   });
 
-  const [addCustomer, { error }] = useMutation(ADD_CUSTOMER);
+  const [addCustomer, { error }] = useMutation(ADD_CUSTOMER, {
+    refetchQueries: [QUERY_CUSTOMERS_BY_AGENT, "getCustomersByAgent"],
+  });
 
   const handleAddCustomerFormSubmit = async (event) => {
     event.preventDefault();
-
-    console.log("in submit");
-    console.log(Object.values(addCustomerFormState));
-    console.log(Object.values(addCustomerFormErrors));
     const isFormValid = Object.values(addCustomerFormErrors).every(
       (error) => error === ""
     );
     if (isFormValid) {
-      console.log("Successfully Submit");
       await addCustomer({
         variables: {
           customerFirstName: addCustomerFormState.customerFirstName,
@@ -80,7 +76,7 @@ const AgentHome = () => {
           customerDateOfBirth: addCustomerFormState.customerDateOfBirth,
         },
       });
-      // // console.log(customerCreated);
+
       // toast.success("Customer Created Successfully", {
       //   autoClose: 2000, // milliseconds
       // });
@@ -90,7 +86,6 @@ const AgentHome = () => {
 
   const handleAddCustomerFormChange = (event) => {
     const { name, value } = event.target;
-    console.log(name);
 
     if (name === "customerFirstName" && value.trim().length < 3) {
       setAddCustomerFormErrors((addCustomerFormErrors) => ({

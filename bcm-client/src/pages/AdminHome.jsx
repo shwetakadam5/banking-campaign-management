@@ -6,7 +6,6 @@ import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect } from "react";
 import SideBar from "../components/SideBar";
 
 import { QUERY_CUSTOMERS } from "../utils/queries";
@@ -21,23 +20,8 @@ import {
   Thead,
   Tbody,
   TableContainer,
-  SimpleGrid,
-  Text,
-  Heading,
-  HStack,
-  Button,
-  Divider,
-  Checkbox,
-  Spacer,
-  Box,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Flex,
   TableCaption,
 } from "@chakra-ui/react";
-import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 
 const AdminHome = () => {
   // Extracting the context details
@@ -47,12 +31,9 @@ const AdminHome = () => {
 
   const customers = data?.customers || [];
 
-  console.log(customers);
-
   return (
     <>
       <Grid templateColumns="repeat(6, 1fr)" bg="blue.50">
-        {/* The Outlet component will conditionally swap between the different pages according to the URL */}
         <GridItem
           as="aside"
           colSpan={{ base: 6, md: 3, lg: 2, xl: 1 }}

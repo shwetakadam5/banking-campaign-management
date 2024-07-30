@@ -28,7 +28,7 @@ const ViewCustomers = () => {
 
   const { loading, data } = useQuery(QUERY_CUSTOMERS_BY_AGENT);
 
-  const customers = data?.customers || [];
+  const customers = data?.customersByAgent || [];
 
   console.log(customers);
 

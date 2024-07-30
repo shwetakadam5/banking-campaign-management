@@ -4,10 +4,10 @@ import { useMutation } from "@apollo/client";
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 
@@ -30,8 +30,8 @@ import { QUERY_RULES } from "../utils/queries";
 
 const AddRule = () => {
   const navigate = useNavigate();
-  // Extracting the context details
-  const [state, dispatch] = useGlobalAppContext();
+  // // Extracting the context details
+  // const [state, dispatch] = useGlobalAppContext();
 
   const [addRuleFormState, setAddRuleFormState] = useState({
     ruleName: "",
@@ -54,14 +54,10 @@ const AddRule = () => {
   const handleAddRuleFormSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("in submit");
-    console.log(Object.values(addRuleFormState));
-    console.log(Object.values(addRuleFormErrors));
     const isFormValid = Object.values(addRuleFormErrors).every(
       (error) => error === ""
     );
     if (isFormValid) {
-      console.log("Successfully Submit");
       const ruleCreated = await addRule({
         variables: {
           ruleName: addRuleFormState.ruleName,
@@ -70,7 +66,7 @@ const AddRule = () => {
           ruleValue: addRuleFormState.ruleValue,
         },
       });
-      console.log(ruleCreated);
+    
       navigate("/viewrules");
     } else {
       console.log("Form contains validation errors.");
@@ -79,7 +75,7 @@ const AddRule = () => {
   };
   const handleAddRuleFormChange = (event) => {
     const { name, value } = event.target;
-    console.log(name);
+   
 
     if (name === "ruleName" && value.trim().length < 3) {
       setAddRuleFormErrors((addRuleFormErrors) => ({

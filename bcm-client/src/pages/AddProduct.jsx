@@ -4,10 +4,10 @@ import { useQuery, useMutation } from "@apollo/client";
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import { MultiSelect } from "react-multi-select-component";
@@ -32,10 +32,8 @@ import { QUERY_PRODUCTS, QUERY_RULES } from "../utils/queries";
 const AddProduct = () => {
   const navigate = useNavigate();
   // Extracting the context details
-  const [state, dispatch] = useGlobalAppContext();
+  // const [state, dispatch] = useGlobalAppContext();
   const [selected, setSelected] = useState([]);
-
-  console.log(selected);
 
   const [addProductFormState, setAddProductFormState] = useState({
     productName: "",
@@ -60,14 +58,12 @@ const AddProduct = () => {
   const handleAddProductFormSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("in submit");
-    console.log(Object.values(addProductFormState));
-    console.log(Object.values(addProductFormErrors));
+    // console.log(Object.values(addProductFormState));
+    // console.log(Object.values(addProductFormErrors));
     const isFormValid = Object.values(addProductFormErrors).every(
       (error) => error === ""
     );
     if (isFormValid) {
-      console.log("Successfully Submit");
       const productCreated = await addProduct({
         variables: {
           productName: addProductFormState.productName,
@@ -76,7 +72,7 @@ const AddProduct = () => {
           rules: selected.map((ruleId) => ruleId.value),
         },
       });
-      console.log(productCreated);
+
       navigate("/viewproducts");
     } else {
       console.log("Form contains validation errors.");
@@ -85,8 +81,6 @@ const AddProduct = () => {
   };
   const handleAddProductFormChange = (event) => {
     const { name, value } = event.target;
-    console.log(name);
-    console.log(value);
 
     if (name === "productName" && value.trim().length < 3) {
       setAddProductFormErrors((addProductFormErrors) => ({
@@ -113,16 +107,6 @@ const AddProduct = () => {
     ) {
       setAddProductFormState({ ...addProductFormState, [name]: value });
     }
-    // else if (event.target.selectedOptions) {
-    //   const options = [...event.target.selectedOptions];
-    //   const values = options.map((option) => option.value);
-
-    //   console.log(values);
-    //   setAddProductFormState({
-    //     ...addProductFormState,
-    //     rules: [...values],
-    //   });
-    // }
   };
 
   return (
@@ -171,13 +155,6 @@ const AddProduct = () => {
 
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="productType">Product Type</FormLabel>
-                {/* <Input
-                  placeholder="productType"
-                  name="productType"
-                  type="input"
-                  id="productType"
-                  onChange={handleAddProductFormChange}
-                /> */}
 
                 <Select
                   bg="white"
