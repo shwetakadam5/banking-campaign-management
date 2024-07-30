@@ -519,10 +519,10 @@ const resolvers = {
         });
 
         const emailSubject = "Welcome to Our Banking System";
-        const emailMessage = `We have offered ${applicableProducts.length} products to you. To view the products offered, kindly login in to the website URL: http://localhost:3000.
-        Please use email id as your username and password in the following format (firstnameyearOfbirth)(Eg: john1983)`;
+        const emailMessage = `We have offered ${applicableProducts.length} products to you. To view the products offered, kindly login in to the website URL: https://banking-campaign-management.onrender.com
+        with your email id. Please provide the password in the following format (firstnameyearOfbirth)(Eg: John1983) to login with the generated password.`;
 
-        // sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
+        sendEmailMessage(customer.customerEmail, emailSubject, emailMessage);
 
         return customer;
       }
