@@ -6,7 +6,7 @@ import { useGlobalAppContext } from "../utils/GlobalAppContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
@@ -28,6 +28,13 @@ import {
   Button,
   Box,
   Text,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogContent,
+  AlertDialogHeader,
 } from "@chakra-ui/react";
 import { SmallAddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { DELETE_RULE } from "../utils/mutations";
@@ -36,6 +43,7 @@ const ViewRules = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
+  const [rule, setRule] = useState({ ruleId: "", ruleName: "" });
   const { loading, data } = useQuery(QUERY_RULES);
 
   const [deleteRule, { error: deleteError }] = useMutation(DELETE_RULE, {
@@ -45,16 +53,19 @@ const ViewRules = () => {
   const rules = data?.rules || [];
 
   console.log(rules);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
-  const handleDelete = async (ruleId) => {
-    const confirm = window.confirm("Would you like to delete?");
-    if (confirm) {
-      const { data, deleteError } = await deleteRule({
-        variables: {
-          ruleId: ruleId,
-        },
-      });
-    }
+  const handleDelete = async () => {
+    // const confirm = window.confirm("Would you like to delete?");
+
+    // if (confirm) {
+    const { data, deleteError } = await deleteRule({
+      variables: {
+        ruleId: rule.ruleId,
+      },
+    });
+    // }
   };
 
   return (
@@ -115,7 +126,11 @@ const ViewRules = () => {
                           variant={"ghost"}
                           rightIcon={<DeleteIcon />}
                           onClick={() => {
-                            handleDelete(rule._id);
+                            setRule({
+                              ruleId: rule._id,
+                              ruleName: rule.ruleName,
+                            });
+                            onOpen();
                           }}
                         ></Button>
                       </Td>
@@ -135,6 +150,43 @@ const ViewRules = () => {
           </TableContainer>
         </GridItem>
       </Grid>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Rule
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure you want to delete the {rule.ruleName}? You can't
+              undo this action afterwards.
+              <Text fontStyle={"italic"} color={"red"} fontSize="small">
+                Note : Rule cannot be deleted if linked to a product.
+              </Text>
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  handleDelete();
+                  onClose();
+                }}
+                ml={3}
+              >
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </>
   );
 };
