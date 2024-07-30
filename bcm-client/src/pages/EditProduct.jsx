@@ -175,14 +175,23 @@ const EditProduct = () => {
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
           <Box maxW="480px">
-            <Heading as="h6"> Edit Product </Heading>
-            {error && <Text color={"red.500"}>{"Something went wrong"}</Text>}
+            <Heading as="h6" mb="30px" fontSize={"20px"} fontStyle={"italic"}>
+              Edit Product
+            </Heading>
+            {error && (
+              <Text mb="15px" color={"red.500"}>
+                {
+                  "Something went wrong.\nProduct should have atleast 1 Rule and maximum 4 Rules"
+                }
+              </Text>
+            )}
 
             <form onSubmit={handleEditProductFormSubmit}>
               <ToastContainer />
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="productName">Product Name</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="productName"
                   name="productName"
                   type="input"
@@ -196,6 +205,7 @@ const EditProduct = () => {
                 <FormLabel htmlFor="productType">Product Type</FormLabel>
 
                 <Select
+                  bg="white"
                   placeholder="Select product type"
                   onChange={handleEditProductFormChange}
                   name="productType"
@@ -224,6 +234,7 @@ const EditProduct = () => {
                   Product Description
                 </FormLabel>
                 <Input
+                  bg="white"
                   placeholder="productDescription"
                   name="productDescription"
                   type="input"
@@ -232,25 +243,6 @@ const EditProduct = () => {
                   onChange={handleEditProductFormChange}
                 />
               </FormControl>
-
-              {/* <FormControl isRequired mb="15px">
-                <FormLabel htmlFor="rules">Rules</FormLabel>
-                <Select
-                  variant="outline"
-                  placeholder="Select operator"
-                  // onChange={handleEditProductFormChange}
-                  name="rules"
-                  multiple={true}
-                  values={editProductFormState.rules.map((rule) => rule._id)}
-                >
-                  {editProductFormState.rules &&
-                    editProductFormState.rules.map((rule) => (
-                      <option key={rule._id} value={rule._id}>
-                        {rule.ruleName}
-                      </option>
-                    ))}
-                </Select>
-              </FormControl> */}
 
               <FormControl mb="15px">
                 <FormLabel htmlFor="ruleName">Rule Value</FormLabel>
@@ -276,7 +268,9 @@ const EditProduct = () => {
               </FormControl>
 
               <FormControl mb="15px">
-                <Button type="submit">Update</Button>
+                <Button colorScheme={"blue"} type="submit">
+                  Update
+                </Button>
               </FormControl>
             </form>
           </Box>
