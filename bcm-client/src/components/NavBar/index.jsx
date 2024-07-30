@@ -7,6 +7,7 @@ import {
   Spacer,
   HStack,
 } from "@chakra-ui/react";
+import Avatar from "react-avatar";
 
 import {
   jwtlogout,
@@ -25,25 +26,52 @@ const NavBar = () => {
 
   if (isAuthUserloggedIn()) {
     return (
-      <Flex as="nav" p="10px" mb="40px" alignItems="center">
-        <Heading as="h1">BCM System</Heading>
-        <Spacer />
-        <HStack spacing="20px">
-          <Box p="10px" bg="gray.200">
-            {getAuthUserProfile().authenticatedUser.appUserFullName}
-          </Box>
-          <Text>{getAuthUserProfile().authenticatedUser.appUserEmail}</Text>
-          <Button colorScheme="blue" onClick={applicationLogout}>
-            Logout
-          </Button>
-        </HStack>
-      </Flex>
+      <Box height={"100px"} bgColor={"blue.400"}>
+        <Flex as="nav" p="30px" mb="40px" alignItems="center">
+          <Heading as="h1" color={"#062452"}>
+            Banking Campaign Management
+          </Heading>
+          <Spacer />
+          <HStack spacing="20px">
+            {/* <Box p="10px" bg="gray.200">
+              {getAuthUserProfile().authenticatedUser.appUserFullName}
+            </Box> */}
+            <Avatar
+              //githubHandle="shwetakadam5"
+              // src={avatarWoman}
+              name={getAuthUserProfile().authenticatedUser.appUserFullName}
+              size="40"
+              round={true}
+              color={"#0C3C84"}
+              initials={(name) =>
+                name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .toUpperCase()
+              }
+            />
+            <Text>{getAuthUserProfile().authenticatedUser.appUserEmail}</Text>
+            <Button
+              bgColor={"#0C3C84"}
+              color={"white"}
+              onClick={applicationLogout}
+            >
+              Logout
+            </Button>
+          </HStack>
+        </Flex>
+      </Box>
     );
   } else {
     return (
-      <Flex as="nav" p="10px" alignItems="center" justifyContent="center">
-        <Heading as="h1">BCM System</Heading>
-      </Flex>
+      <Box height={"100px"} bgColor={"blue.400"}>
+        <Flex as="nav" p="30px" alignItems="center" justifyContent="center">
+          <Heading as="h1" color={"#062452"}>
+            Banking Campaign Management
+          </Heading>
+        </Flex>
+      </Box>
     );
   }
 };

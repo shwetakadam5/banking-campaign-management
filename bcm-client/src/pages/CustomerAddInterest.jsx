@@ -77,7 +77,7 @@ const CustomerAddInterest = () => {
         <GridItem
           as="aside"
           colSpan={{ base: 6, md: 3, lg: 2, xl: 1 }}
-          bg="blue.400"
+          bg="blue.200"
           minHeight={{ lg: "100vh" }}
           p={{ base: "20px", lg: "30px" }}
         >

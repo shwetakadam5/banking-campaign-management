@@ -13,7 +13,7 @@ const SideBar = () => {
     getAuthUserProfile().authenticatedUser.appUserRole == "customer"
   ) {
     return (
-      <List color="white" fontSize="1.2em" spacing={4}>
+      <List color="#062452" fontSize="1.2em" spacing={4}>
         <ListItem>
           <NavLink to="/customerhome">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
@@ -27,7 +27,7 @@ const SideBar = () => {
     getAuthUserProfile().authenticatedUser.appUserRole == "agent"
   ) {
     return (
-      <List color="white" fontSize="1.2em" spacing={4}>
+      <List color="#062452" fontSize="1.2em" spacing={4}>
         <ListItem>
           {" "}
           <NavLink to="/agenthome">
@@ -42,7 +42,7 @@ const SideBar = () => {
     getAuthUserProfile().authenticatedUser.appUserRole == "admin"
   ) {
     return (
-      <List color="white" fontSize="1.2em" spacing={4}>
+      <List color="#062452" fontSize="1.2em" spacing={4}>
         <ListItem>
           <NavLink to="/adminhome">
             <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
