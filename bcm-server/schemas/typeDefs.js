@@ -71,6 +71,7 @@ type Query {
     rule(_id: ID!): Rule
     customersProducts: Customer
     customerInterest(_id: ID!) : CustomerInterest
+    customersByAgent:[Customer]!  
   }
 
 type Mutation {

@@ -32,7 +32,14 @@ const SideBar = () => {
           {" "}
           <NavLink to="/agenthome">
             <ListIcon as={EditIcon} color="blue.800"></ListIcon>
-            Create Customer
+            Add Customer
+          </NavLink>
+        </ListItem>
+        <ListItem>
+          {" "}
+          <NavLink to="/viewcustomers">
+            <ListIcon as={ViewIcon} color="blue.800"></ListIcon>
+            View Customers
           </NavLink>
         </ListItem>
       </List>

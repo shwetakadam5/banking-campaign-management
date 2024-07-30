@@ -127,7 +127,7 @@ export const QUERY_PRODUCT_BY_PRODUCT_TYPE = gql`
 export const QUERY_PRODUCT_BY_ID = gql`
   query getProduct($id: ID!) {
     product(_id: $id) {
-     _id
+      _id
       productName
       productType
       productDescription
@@ -210,6 +210,49 @@ export const QUERY_CUSTOMER_INTEREST = gql`
         productName
         productType
         productDescription
+      }
+    }
+  }
+`;
+
+export const QUERY_CUSTOMERS_BY_AGENT = gql`
+  query getCustomersByAgent {
+    customers {
+      _id
+      customerFirstName
+      customerLastName
+      customerEmail
+      customerGender
+      customerOccupation
+      customerSalary
+      customerResidentStatus
+      customerDateOfBirth
+      isCustomerEligible
+      customerAge
+      eligibleProductsCount
+      products {
+        _id
+        productName
+        rules {
+          _id
+          ruleName
+        }
+      }
+      interestedProducts {
+        isCustomerInterested
+        interestedProductsCount
+        products {
+          _id
+          productName
+        }
+      }
+      createdBy {
+        _id
+        appUserFirstName
+        appUserLastName
+        appUserEmail
+        appUserRole
+        appUserFullName
       }
     }
   }

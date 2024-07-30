@@ -44,6 +44,7 @@ const resolvers = {
         .populate("createdBy");
       return customers;
     },
+
     products: async (parent, { productName, productType }) => {
       const params = {};
 
@@ -98,6 +99,30 @@ const resolvers = {
         return customer;
       }
 
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
+    },
+    customersByAgent: async (arent, args, context) => {
+      if (context.user) {
+        const customers = await Customer.find({
+          createdBy: context.user._id,
+        })
+          .populate("products")
+          .populate({
+            path: "products",
+            populate: "rules",
+          })
+          .populate("interestedProducts")
+          .populate({
+            path: "interestedProducts",
+            populate: "products",
+          })
+          .populate("createdBy");
+        return customers;
+      }
       throw new GraphQLError("Could not authenticate user.", {
         extensions: {
           code: "UNAUTHENTICATED",

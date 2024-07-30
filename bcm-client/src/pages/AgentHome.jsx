@@ -16,6 +16,7 @@ import {
   Button,
   FormControl,
   FormHelperText,
+  Text,
   FormLabel,
   Grid,
   GridItem,
@@ -67,7 +68,7 @@ const AgentHome = () => {
     );
     if (isFormValid) {
       console.log("Successfully Submit");
-      const customerCreated = await addCustomer({
+      await addCustomer({
         variables: {
           customerFirstName: addCustomerFormState.customerFirstName,
           customerLastName: addCustomerFormState.customerLastName,
@@ -79,20 +80,12 @@ const AgentHome = () => {
           customerDateOfBirth: addCustomerFormState.customerDateOfBirth,
         },
       });
-      console.log(customerCreated);
-      toast.success("Customer Created Successfully", {
-        autoClose: 2000, // milliseconds
-      });
-      setAddCustomerFormState({
-        ...addCustomerFormState,
-        customerFirstName: " ",
-      });
-    } else {
-      console.log("Form contains validation errors.");
-      toast.error("Form contains validation errors.", {
-        autoClose: 2000, // milliseconds
-      });
+      // // console.log(customerCreated);
+      // toast.success("Customer Created Successfully", {
+      //   autoClose: 2000, // milliseconds
+      // });
     }
+    navigate("/viewcustomers");
   };
 
   const handleAddCustomerFormChange = (event) => {
@@ -110,12 +103,9 @@ const AgentHome = () => {
         customerLastName: "Last Name must be at least 1 character long.",
       }));
     } else if (name === "customerDateOfBirth") {
-      let dateString = value;
-      console.log(dateString);
       let customerDOB = new Date(value);
-      console.log(customerDOB);
       let currentDate = new Date();
-      console.log(currentDate);
+
       if (customerDOB > currentDate) {
         setAddCustomerFormErrors((addCustomerFormErrors) => ({
           ...addCustomerFormErrors,
@@ -160,11 +150,12 @@ const AgentHome = () => {
         >
           <SideBar />
         </GridItem>
-        <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
-          <Box maxW="480px">
-            <Heading as="h6"> Add Customer </Heading>
+        <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="50px">
+          <Box maxW="500px">
+            <Heading as="h6" mb="30px" fontSize={"20px"} fontStyle={"italic"}>
+              Add Customer
+            </Heading>
             <form onSubmit={handleAddCustomerFormSubmit}>
-              <ToastContainer />
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="customerFirstName">First Name</FormLabel>
                 <Input
