@@ -109,7 +109,9 @@ const AddRule = () => {
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
           <Box maxW="480px">
-            <Heading as="h6"> Add Rule </Heading>
+            <Heading as="h6" mb="30px" fontSize={"20px"} fontStyle={"italic"}>
+              Add Rule
+            </Heading>
             {error && <Text color={"red.500"}>{"Something went wrong"}</Text>}
 
             <form onSubmit={handleAddRuleFormSubmit}>
@@ -117,6 +119,7 @@ const AddRule = () => {
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="ruleName">Rule Name</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="rulename"
                   name="ruleName"
                   type="input"
@@ -134,6 +137,7 @@ const AddRule = () => {
                 <FormLabel htmlFor="ruleName">Rule Field Name</FormLabel>
 
                 <Select
+                  bg="white"
                   placeholder="Select field name"
                   onChange={handleAddRuleFormChange}
                   name="ruleOperandField"
@@ -174,6 +178,7 @@ const AddRule = () => {
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="ruleName">Rule Operator</FormLabel>
                 <Select
+                  bg="white"
                   placeholder="Select operator"
                   onChange={handleAddRuleFormChange}
                   name="ruleOperator"
@@ -192,6 +197,7 @@ const AddRule = () => {
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="ruleName">Rule Value</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="ruleValue"
                   name="ruleValue"
                   type="input"
@@ -205,7 +211,9 @@ const AddRule = () => {
                 )}
               </FormControl>
               <FormControl mb="15px">
-                <Button type="submit">Submit</Button>
+                <Button colorScheme={"blue"} type="submit">
+                  Submit
+                </Button>
               </FormControl>
             </form>
           </Box>

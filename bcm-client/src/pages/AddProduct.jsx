@@ -139,14 +139,23 @@ const AddProduct = () => {
         </GridItem>
         <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
           <Box maxW="480px">
-            <Heading as="h6"> Add Product </Heading>
-            {error && <Text color={"red.500"}>{"Something went wrong"}</Text>}
+            <Heading as="h6" mb="30px" fontSize={"20px"} fontStyle={"italic"}>
+              Add Product
+            </Heading>
+            {error && (
+              <Text color={"red.500"}>
+                {
+                  "Something went wrong.\nProduct should have atleast 1 Rule and maximum 4 Rules"
+                }
+              </Text>
+            )}
 
             <form onSubmit={handleAddProductFormSubmit}>
               <ToastContainer />
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="productName">Product Name</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="productName"
                   name="productName"
                   type="input"
@@ -171,6 +180,7 @@ const AddProduct = () => {
                 /> */}
 
                 <Select
+                  bg="white"
                   placeholder="Select product type"
                   onChange={handleAddProductFormChange}
                   name="productType"
@@ -198,6 +208,7 @@ const AddProduct = () => {
                   Product Description
                 </FormLabel>
                 <Input
+                  bg="white"
                   placeholder="productDescription"
                   name="productDescription"
                   type="input"
@@ -210,41 +221,6 @@ const AddProduct = () => {
                   </FormHelperText>
                 )}
               </FormControl>
-
-              {/* <FormControl isRequired mb="15px">
-                <FormLabel htmlFor="rules">Rules</FormLabel>
-                <Select
-                  variant="outline"
-                  placeholder="Select operator"
-                  onChange={handleAddProductFormChange}
-                  name="rules"
-                  multiple={true}
-                >
-                  {rules &&
-                    rules.map((rule) => (
-                      <option key={rule._id} value={rule._id}>
-                        {rule.ruleName}
-                      </option>
-                    ))}
-                </Select>
-              </FormControl> */}
-              {/* <FormControl isRequired mb="15px">
-                <FormLabel htmlFor="ruleName">Rule Value</FormLabel>
-                <select
-                  id="my-select-1"
-                  name="rulesTry"
-                  multiple={true}
-                  value={rules}
-                  onChange={handleAddProductFormChange}
-                >
-                  {rules &&
-                    rules.map((rule) => (
-                      {value :{rule._id}
-                        label : {rule.ruleName}
-}
-                    ))}
-                </select>
-              </FormControl> */}
 
               <FormControl mb="15px">
                 <FormLabel htmlFor="ruleName">Rule Value</FormLabel>
@@ -263,7 +239,9 @@ const AddProduct = () => {
                 ></MultiSelect>
               </FormControl>
               <FormControl mb="15px">
-                <Button type="submit">Submit</Button>
+                <Button colorScheme={"blue"} type="submit">
+                  Submit
+                </Button>
               </FormControl>
             </form>
           </Box>
