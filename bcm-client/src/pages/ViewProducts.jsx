@@ -3,10 +3,9 @@ import { useQuery } from "@apollo/client";
 
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
-import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect } from "react";
 import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
 
@@ -38,8 +37,6 @@ const ViewProducts = () => {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   const products = data?.products || [];
-
-  console.log(products);
 
   return (
     <>

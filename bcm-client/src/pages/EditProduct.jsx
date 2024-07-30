@@ -4,10 +4,10 @@ import { useQuery, useMutation } from "@apollo/client";
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import { MultiSelect } from "react-multi-select-component";
@@ -16,7 +16,6 @@ import {
   Box,
   Button,
   FormControl,
-  FormHelperText,
   FormLabel,
   Grid,
   GridItem,
@@ -38,9 +37,7 @@ const EditProduct = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
-  const [selected, setSelected] = useState([
-    { value: "66a713a909d6cc5f37c1c353", label: "ageRule1" },
-  ]);
+  const [selected, setSelected] = useState([{ value: "", label: "" }]);
 
   const [updateFormState, setUpdateFormState] = useState({
     productName: "",
@@ -59,8 +56,6 @@ const EditProduct = () => {
   // `useParams()` to retrieve value of the route parameter `:productId`
   const { productId } = useParams();
 
-  console.log(productId);
-
   const { loading: productLoading, data } = useQuery(QUERY_PRODUCT_BY_ID, {
     // passing the URL parameter
     variables: { id: productId },
@@ -78,7 +73,6 @@ const EditProduct = () => {
     const product = data?.product;
 
     if (!product) return;
-    console.log("inside useEffect", product);
 
     setUpdateFormState((state) => ({
       ...state,
@@ -89,22 +83,15 @@ const EditProduct = () => {
         return { value: element._id, label: element.ruleName };
       }),
     }));
-    console.log(product.rules);
   }, [data]);
-
-  console.log(updateFormState);
 
   const handleEditProductFormSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("in submit");
-    console.log(Object.values(updateFormState));
-    console.log(Object.values(updateFormErrors));
     const isFormValid = Object.values(updateFormErrors).every(
       (error) => error === ""
     );
     if (isFormValid) {
-      console.log("Successfully Submit");
       const productUpdated = await updateProduct({
         variables: {
           productId: productId,
@@ -114,7 +101,7 @@ const EditProduct = () => {
           rules: updateFormState.rules.map((rule) => rule.value),
         },
       });
-      console.log(productUpdated);
+
       navigate("/viewproducts");
     } else {
       console.log("Form contains validation errors.");
@@ -122,8 +109,6 @@ const EditProduct = () => {
   };
   const handleEditProductFormChange = (event) => {
     const { name, value } = event.target;
-    console.log(name);
-    console.log(value);
 
     if (name === "productName" && value.trim().length < 3) {
       setUpdateFormErrors((updateFormErrors) => ({
@@ -150,16 +135,6 @@ const EditProduct = () => {
     ) {
       setUpdateFormState({ ...updateFormState, [name]: value });
     }
-    //  else if (event.target.selectedOptions) {
-    //   const options = [...event.target.selectedOptions];
-    //   const values = options.map((option) => option.value);
-
-    //   console.log(values);
-    //   setUpdateFormState({
-    //     ...updateFormState,
-    //     rules: [...values],
-    //   });
-    // }
   };
   return (
     <>
@@ -257,7 +232,6 @@ const EditProduct = () => {
                     }))
                   }
                   onChange={(changeValue) => {
-                    console.log(changeValue);
                     setUpdateFormState((state) => ({
                       ...state,
                       rules: changeValue,

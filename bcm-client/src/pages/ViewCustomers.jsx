@@ -4,7 +4,6 @@ import { useQuery } from "@apollo/client";
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
 
-import { useEffect } from "react";
 import SideBar from "../components/SideBar";
 
 import { QUERY_CUSTOMERS_BY_AGENT } from "../utils/queries";
@@ -29,8 +28,6 @@ const ViewCustomers = () => {
   const { loading, data } = useQuery(QUERY_CUSTOMERS_BY_AGENT);
 
   const customers = data?.customersByAgent || [];
-
-  console.log(customers);
 
   return (
     <>

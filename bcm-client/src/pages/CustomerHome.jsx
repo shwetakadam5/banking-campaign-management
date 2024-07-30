@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
-import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.min.css";
 
 import { MultiSelect } from "react-multi-select-component";
@@ -25,19 +25,8 @@ import {
   Divider,
   Text,
   HStack,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  CloseButton,
-  useDisclosure,
 } from "@chakra-ui/react";
-import {
-  CheckCircleIcon,
-  InfoIcon,
-  PhoneIcon,
-  PlusSquareIcon,
-} from "@chakra-ui/icons";
+import { CheckCircleIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import SideBar from "../components/SideBar";
 
 import { QUERY_CUSTOMER_PRODUCTS } from "../utils/queries";
@@ -47,7 +36,6 @@ const CustomerHome = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
 
-  console.log(state);
   const [addInterestFormState, setAddInterestFormState] = useState({
     selectedProducts: [],
   });
@@ -61,8 +49,6 @@ const CustomerHome = () => {
   const products = data?.customersProducts.products || [];
   const interestedProducts =
     data?.customersProducts.interestedProducts?.products || [];
-
-  console.log(interestedProducts);
 
   const handleSubmit = async (event) => {
     // Prevent the browser from reloading the page
@@ -78,7 +64,6 @@ const CustomerHome = () => {
         isCustomerInterested: "true",
       },
     });
-    console.log(data);
 
     //navigate("/customerhome");
   };
@@ -87,7 +72,6 @@ const CustomerHome = () => {
     const product = data?.product;
 
     if (!product) return;
-    console.log("inside useEffect", product);
 
     setAddInterestFormState((state) => ({
       ...state,
@@ -172,7 +156,6 @@ const CustomerHome = () => {
                       }))
                     }
                     onChange={(changeValue) => {
-                      console.log(changeValue);
                       setAddInterestFormState((state) => ({
                         ...state,
                         selectedProducts: changeValue,

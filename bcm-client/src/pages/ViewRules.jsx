@@ -3,10 +3,10 @@ import { useQuery, useMutation } from "@apollo/client";
 
 //Importing the global context related files.
 import { useGlobalAppContext } from "../utils/GlobalAppContext";
-import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.min.css";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
@@ -52,7 +52,6 @@ const ViewRules = () => {
 
   const rules = data?.rules || [];
 
-  console.log(rules);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
