@@ -46,12 +46,6 @@ import { ADD_INTEREST } from "../utils/mutations";
 const CustomerHome = () => {
   // Extracting the context details
   const [state, dispatch] = useGlobalAppContext();
-  const [showAlert, setShowAlert] = useState(false);
-  const {
-    isOpen: isVisible,
-    onClose,
-    onOpen,
-  } = useDisclosure({ defaultIsOpen: true });
 
   console.log(state);
   const [addInterestFormState, setAddInterestFormState] = useState({
@@ -85,7 +79,6 @@ const CustomerHome = () => {
       },
     });
     console.log(data);
-    setShowAlert(true);
 
     //navigate("/customerhome");
   };
