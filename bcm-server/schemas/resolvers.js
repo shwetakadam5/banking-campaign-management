@@ -17,59 +17,107 @@ const {
 const { ObjectId } = require("mongodb");
 const resolvers = {
   Query: {
-    appUsers: async () => {
-      return await AppUser.find();
-    },
-    customerInterest: async (parent, { _id }) => {
-      const customerInterest = await CustomerInterest.findById(_id).populate(
-        "products"
-      );
-      if (!customerInterest) {
-        throw new GraphQLError("No interested products");
+    appUsers: async (parent, args, context) => {
+      if (context.user) {
+        return await AppUser.find();
       }
-      return customerInterest;
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
-    customers: async () => {
-      const customers = await Customer.find({})
-        .populate("products")
-        .populate({
-          path: "products",
-          populate: "rules",
-        })
-        .populate("interestedProducts")
-        .populate({
-          path: "interestedProducts",
-          populate: "products",
-        })
-        .populate("createdBy");
-      return customers;
-    },
-
-    products: async (parent, { productName, productType }) => {
-      const params = {};
-
-      if (productName) {
-        params.productName = {
-          $regex: productName,
-        };
+    customerInterest: async (parent, { _id }, context) => {
+      if (context.user) {
+        const customerInterest = await CustomerInterest.findById(_id).populate(
+          "products"
+        );
+        if (!customerInterest) {
+          throw new GraphQLError("No interested products");
+        }
+        return customerInterest;
       }
-
-      if (productType) {
-        params.productType = {
-          $regex: productType,
-        };
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
+    },
+    customers: async (parent, args, context) => {
+      if (context.user) {
+        const customers = await Customer.find({})
+          .populate("products")
+          .populate({
+            path: "products",
+            populate: "rules",
+          })
+          .populate("interestedProducts")
+          .populate({
+            path: "interestedProducts",
+            populate: "products",
+          })
+          .populate("createdBy");
+        return customers;
       }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
+    },
+    products: async (parent, { productName, productType }, context) => {
+      if (context.user) {
+        const params = {};
 
-      return await Product.find(params).populate("rules");
+        if (productName) {
+          params.productName = {
+            $regex: productName,
+          };
+        }
+
+        if (productType) {
+          params.productType = {
+            $regex: productType,
+          };
+        }
+
+        return await Product.find(params).populate("rules");
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate("rules");
+    product: async (parent, { _id }, context) => {
+      if (context.user) {
+        return await Product.findById(_id).populate("rules");
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
-    rules: async () => {
-      return await Rule.find({});
+    rules: async (parent, args, context) => {
+      if (context.user) {
+        return await Rule.find({});
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
-    rule: async (parent, { _id }) => {
-      return await Rule.findById(_id);
+    rule: async (parent, { _id }, context) => {
+      if (context.user) {
+        return await Rule.findById(_id);
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
     customersProducts: async (parent, args, context) => {
       if (context.user) {
@@ -98,7 +146,6 @@ const resolvers = {
 
         return customer;
       }
-
       throw new GraphQLError("Could not authenticate user.", {
         extensions: {
           code: "UNAUTHENTICATED",
@@ -161,53 +208,26 @@ const resolvers = {
 
       return { token, appUserDetails };
     },
-    addRule: async (parent, args) => {
-      const rule = await Rule.create(args);
-      return rule;
-    },
-    deleteRule: async (parent, { ruleId }) => {
-      const countOfProductsLinkedToRule = await Product.countDocuments({
-        rules: ruleId,
+    addRule: async (parent, args, context) => {
+      if (context.user) {
+        const rule = await Rule.create(args);
+        return rule;
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
       });
-
-      if (countOfProductsLinkedToRule !== 0) {
-        throw new GraphQLError(
-          `Rule cannot be deleted as ${countOfProductsLinkedToRule} products are linked `,
-          {
-            extensions: {
-              code: "BAD_USER_INPUT",
-            },
-          }
-        );
-      }
-
-      const rule = await Rule.findOneAndDelete({ _id: ruleId });
-      if (!rule) {
-        throw new GraphQLError("No rule with that id", {
-          extensions: {
-            code: "BAD_USER_INPUT",
-          },
-        });
-      }
-
-      return rule;
     },
-    addProduct: async (parent, args) => {
-      if (Array.isArray(args.rules) && args.rules.length === 0) {
-        throw new GraphQLError("Cannot add a product without any rule", {
-          extensions: {
-            code: "BAD_USER_INPUT",
-          },
+    deleteRule: async (parent, { ruleId }, context) => {
+      if (context.user) {
+        const countOfProductsLinkedToRule = await Product.countDocuments({
+          rules: ruleId,
         });
-      }
-      for (let index = 0; index < args.rules.length; index++) {
-        const element = args.rules[index];
-        const rule = await Rule.findById({
-          _id: element,
-        });
-        if (rule == null) {
+
+        if (countOfProductsLinkedToRule !== 0) {
           throw new GraphQLError(
-            "Rule does not exist.Cannot add a product with invalid rule",
+            `Rule cannot be deleted as ${countOfProductsLinkedToRule} products are linked `,
             {
               extensions: {
                 code: "BAD_USER_INPUT",
@@ -215,47 +235,102 @@ const resolvers = {
             }
           );
         }
-      }
 
-      const product = await Product.create(args);
-      return product;
-    },
-    updateProduct: async (
-      parent,
-      { productId, productName, productType, productDescription, rules }
-    ) => {
-      if (Array.isArray(rules) && rules.length === 0) {
-        throw new GraphQLError(
-          "Cannot update a product without atleast 1 rule",
-          {
+        const rule = await Rule.findOneAndDelete({ _id: ruleId });
+        if (!rule) {
+          throw new GraphQLError("No rule with that id", {
             extensions: {
               code: "BAD_USER_INPUT",
             },
-          }
-        );
+          });
+        }
+
+        return rule;
       }
-      const product = await Product.findOneAndUpdate(
-        { _id: productId },
-        {
-          $set: {
-            productName,
-            productType,
-            productDescription,
-            rules,
-          },
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
         },
-        { runValidators: true, new: true }
-      );
+      });
+    },
+    addProduct: async (parent, args, context) => {
+      if (context.user) {
+        if (Array.isArray(args.rules) && args.rules.length === 0) {
+          throw new GraphQLError("Cannot add a product without any rule", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          });
+        }
+        for (let index = 0; index < args.rules.length; index++) {
+          const element = args.rules[index];
+          const rule = await Rule.findById({
+            _id: element,
+          });
+          if (rule == null) {
+            throw new GraphQLError(
+              "Rule does not exist.Cannot add a product with invalid rule",
+              {
+                extensions: {
+                  code: "BAD_USER_INPUT",
+                },
+              }
+            );
+          }
+        }
 
-      if (!product) {
-        throw new GraphQLError("No Product with that id", {
-          extensions: {
-            code: "BAD_USER_INPUT",
-          },
-        });
+        const product = await Product.create(args);
+        return product;
       }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
+    },
+    updateProduct: async (
+      parent,
+      { productId, productName, productType, productDescription, rules },
+      context
+    ) => {
+      if (context.user) {
+        if (Array.isArray(rules) && rules.length === 0) {
+          throw new GraphQLError(
+            "Cannot update a product without atleast 1 rule",
+            {
+              extensions: {
+                code: "BAD_USER_INPUT",
+              },
+            }
+          );
+        }
+        const product = await Product.findOneAndUpdate(
+          { _id: productId },
+          {
+            $set: {
+              productName,
+              productType,
+              productDescription,
+              rules,
+            },
+          },
+          { runValidators: true, new: true }
+        );
 
-      return product;
+        if (!product) {
+          throw new GraphQLError("No Product with that id", {
+            extensions: {
+              code: "BAD_USER_INPUT",
+            },
+          });
+        }
+        return product;
+      }
+      throw new GraphQLError("Could not authenticate user.", {
+        extensions: {
+          code: "UNAUTHENTICATED",
+        },
+      });
     },
     sendEmail: async (parent, { email }) => {
       console.log({ email });
