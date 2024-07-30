@@ -2,9 +2,6 @@ import { TOGGLE_THEME, SET_USER } from "./actions";
 
 //  dispatch({ type: TOGGLE_THEME, payload: state.darkTheme })
 export const reducer = (state, action) => {
-  console.log({ ...action.payload });
-  console.log(state);
-
   const newDarkTheme = !action.payload;
   switch (action.type) {
     case TOGGLE_THEME: {
