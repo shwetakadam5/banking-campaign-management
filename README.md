@@ -82,7 +82,7 @@ Examples of Errors :
 ## Credits and Helpful Resources
 
 - [Deploy with Render and MongoDB Atlas](https://coding-boot-camp.github.io/full-stack/mongodb/deploy-with-render-and-mongodb-atlas)
-- [Chakra-UI ](https://v2.chakra-ui.com/) 
+- [Chakra-UI ](https://v2.chakra-ui.com/)
 - [Nodemailer](https://nodemailer.com/)
 
 ## License
@@ -95,3 +95,15 @@ Examples of Errors :
 >
 > > - Git Hub Profile : <https://github.com/shwetakadam5>
 > > - E-mail Address : <shwetakadam5@gmail.com>
+
+## Contributions
+
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md)
+
+This project welcomes contributions and suggestions and anyone can contribute to this repo.To make sure your contribution aligns with our code of conduct adopted, please make sure to review it before submitting.
+
+To contribute your own examples, [fork the repo](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks), [create a new branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/), make your changes or additions, and then [submit a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requestsabout-branches).
+
+Thanks to all the contributors.
+
+![GitHub Contributors Image](https://contrib.rocks/image?repo=shwetakadam5/banking-campaign-management&anon=1)
