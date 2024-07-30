@@ -99,7 +99,7 @@ const ViewRules = () => {
               colorScheme="blue"
               border={"1px solid"}
             >
-              <TableCaption placement="top">Rules </TableCaption>
+              <TableCaption placement="top">Rules</TableCaption>
               <Thead bg={"blue.700"}>
                 <Tr>
                   <Th color={"aliceblue"}>Rule Name</Th>

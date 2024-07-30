@@ -28,7 +28,7 @@ const NavBar = () => {
     return (
       <Box height={"100px"} bgColor={"blue.400"}>
         <Flex as="nav" p="30px" mb="40px" alignItems="center">
-          <Heading as="h1" color={"#062452"}>
+          <Heading as="h6" color={"#062452"}>
             Banking Campaign Management
           </Heading>
           <Spacer />
@@ -67,7 +67,7 @@ const NavBar = () => {
     return (
       <Box height={"100px"} bgColor={"blue.400"}>
         <Flex as="nav" p="30px" alignItems="center" justifyContent="center">
-          <Heading as="h1" color={"#062452"}>
+          <Heading as="h6" color={"#062452"}>
             Banking Campaign Management
           </Heading>
         </Flex>

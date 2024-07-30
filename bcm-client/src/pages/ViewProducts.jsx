@@ -67,7 +67,7 @@ const ViewProducts = () => {
               colorScheme="blue"
               border={"1px solid"}
             >
-              <TableCaption placement="top">Products </TableCaption>
+              <TableCaption placement="top">Products</TableCaption>
               <Thead bg={"blue.700"}>
                 <Tr>
                   <Th color={"aliceblue"}>Product Name</Th>

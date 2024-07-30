@@ -70,7 +70,7 @@ const AdminHome = () => {
               colorScheme="blue"
               border={"1px solid"}
             >
-              <TableCaption placement="top">Customers</TableCaption>
+              <TableCaption placement="top">All Customers</TableCaption>
               <Thead bg={"blue.700"}>
                 <Tr>
                   <Th color={"aliceblue"}>Customer First Name</Th>

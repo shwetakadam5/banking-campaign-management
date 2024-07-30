@@ -112,7 +112,11 @@ const AddRule = () => {
             <Heading as="h6" mb="30px" fontSize={"20px"} fontStyle={"italic"}>
               Add Rule
             </Heading>
-            {error && <Text color={"red.500"}>{"Something went wrong"}</Text>}
+            {error && (
+              <Text mb="15px" color={"red.500"}>
+                {"Something went wrong"}
+              </Text>
+            )}
 
             <form onSubmit={handleAddRuleFormSubmit}>
               <ToastContainer />

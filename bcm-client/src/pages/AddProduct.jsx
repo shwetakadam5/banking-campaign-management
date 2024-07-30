@@ -143,7 +143,7 @@ const AddProduct = () => {
               Add Product
             </Heading>
             {error && (
-              <Text color={"red.500"}>
+              <Text mb="15px" color={"red.500"}>
                 {
                   "Something went wrong.\nProduct should have atleast 1 Rule and maximum 4 Rules"
                 }

@@ -81,20 +81,21 @@ const Login = () => {
       </GridItem>
       <GridItem as="main" colSpan={{ base: 6, md: 3, lg: 4, xl: 5 }} p="40px">
         <Box maxW="480px">
-          <Heading as="h6"> Login </Heading>
-          <form onSubmit={handleLoginFormSubmit}>
-            {error ? (
-              <div>
-                <p className="error-text">
-                  The provided credentials are incorrect
-                </p>
-              </div>
-            ) : null}
+          <Heading as="h6" mb="30px">
+            Login
+          </Heading>
 
+          <form onSubmit={handleLoginFormSubmit}>
+            {error && (
+              <Text mb="15px" color={"red.500"}>
+                {"The provided credentials are incorrect"}
+              </Text>
+            )}
             <FormControl isRequired mb="15px">
               <FormLabel htmlFor="email">Email Id :</FormLabel>
 
               <Input
+                bg="white"
                 placeholder="youremail@test.com"
                 name="appUserEmail"
                 type="email"
@@ -105,6 +106,7 @@ const Login = () => {
             <FormControl isRequired mb="15px">
               <FormLabel htmlFor="pwd">Password:</FormLabel>
               <Input
+                bg="white"
                 placeholder="******"
                 name="appUserPassword"
                 type="password"

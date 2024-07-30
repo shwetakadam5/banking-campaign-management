@@ -159,6 +159,7 @@ const AgentHome = () => {
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="customerFirstName">First Name</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="firstname"
                   name="customerFirstName"
                   type="input"
@@ -175,6 +176,7 @@ const AgentHome = () => {
                 <FormLabel htmlFor="customerLastName">Last Name</FormLabel>
 
                 <Input
+                  bg="white"
                   placeholder="lastname"
                   name="customerLastName"
                   type="input"
@@ -192,6 +194,7 @@ const AgentHome = () => {
                   Date of Birth
                 </FormLabel>
                 <Input
+                  bg="white"
                   placeholder=""
                   name="customerDateOfBirth"
                   type="date"
@@ -208,6 +211,7 @@ const AgentHome = () => {
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="customerEmail">Email address:</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="youremail@test.com"
                   name="customerEmail"
                   type="email"
@@ -224,6 +228,7 @@ const AgentHome = () => {
                 <FormLabel htmlFor="customerGender">Gender</FormLabel>
 
                 <Select
+                  bg="white"
                   placeholder="Select gender"
                   onChange={handleAddCustomerFormChange}
                   name="customerGender"
@@ -242,6 +247,7 @@ const AgentHome = () => {
               <FormControl mb="15px">
                 <FormLabel htmlFor="customerOccupation">Occupation</FormLabel>
                 <Input
+                  bg="white"
                   placeholder="occupation"
                   name="customerOccupation"
                   type="input"
@@ -254,6 +260,7 @@ const AgentHome = () => {
                   Resident Status
                 </FormLabel>
                 <Select
+                  bg="white"
                   placeholder="Select resident status"
                   onChange={handleAddCustomerFormChange}
                   name="customerResidentStatus"
@@ -278,6 +285,7 @@ const AgentHome = () => {
               <FormControl isRequired mb="15px">
                 <FormLabel htmlFor="customerSalary">Salary</FormLabel>
                 <Input
+                  bg="white"
                   placeholder=""
                   name="customerSalary"
                   type="input"
