@@ -11,7 +11,9 @@
 
 # description
 
-- This project is to build a web application for
+- This project is to build a MERN stack application for managing a marketing campaign for a financial institution.
+- The campaign management process involves Ideation, Coordination, Execution and Measure. This application helps to automates the goal definition, captures target audience and helps establish responses from customer on interested products. The results of the campaign can be used for further analysis and action.
+- During this implementation, I was able to apply my knowledge on Express.js, GraphQL, React , JWT authentication, ChakraUI, Mongoose,MongoDB, GlobalContext and overall deployment on Render with MongoDBAtlas.
 
 ## Table of Contents
 
